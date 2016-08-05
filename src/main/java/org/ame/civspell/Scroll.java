@@ -24,7 +24,6 @@ class Scroll implements Listener {
         }
         // Handle shift-clicking. (Is this needed?)
         else if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.getPlayer().isSneaking()) {
-            System.out.println("Rclick with scroll in hand on block.");
             return;
         }
 
