@@ -1,10 +1,10 @@
 package org.ame.civspell;
 
 
-import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public interface Spell {
-    void cast(Player caster);
+    void cast(PlayerInteractEvent event);
 
     /**
      * @return Weather or not the spell can occur as a scroll.
@@ -20,9 +20,4 @@ public interface Spell {
      * @return If the spell can be memorized and casted without a book.
      */
     boolean canBeMemorized();
-
-    /**
-     * @return The human-facing name for the spell.
-     */
-    String getHumanName();
 }
