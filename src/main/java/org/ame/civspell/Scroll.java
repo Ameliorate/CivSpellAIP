@@ -33,10 +33,6 @@ class Scroll implements Listener {
         else if (event.getAction() == Action.PHYSICAL) {
             return;
         }
-        // Handle shift-clicking. (Is this needed?)
-        else if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.getPlayer().isSneaking()) {
-            return;
-        }
         String spellName = "";
         for (String part : event.getItem().getItemMeta().getDisplayName().split("Magic Scroll -- ")) {
             spellName = spellName + part + "Magic Scroll -- ";
