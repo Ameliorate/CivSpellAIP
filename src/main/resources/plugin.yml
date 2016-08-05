@@ -1,0 +1,7 @@
+name: civ-spell-api
+version: @version@-@apitype@-@apiversion@
+description: Adds an api to add spells to civcraft-type servers
+authors: [Amelorate]
+website: https://github.com/Ameliorate/CivSpellAPI
+
+main: org.ame.civspell.Main
