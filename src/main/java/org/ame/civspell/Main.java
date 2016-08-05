@@ -7,6 +7,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         SpellManager.addSpell("nop", new NopSpell());
+        this.getCommand("givescroll").setExecutor(new CommandGiveScroll(this));
         getServer().getPluginManager().registerEvents(new Scroll(this), this);
         System.out.println("CivSpellAPI Enabled.");
     }

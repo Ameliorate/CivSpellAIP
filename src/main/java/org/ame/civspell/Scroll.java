@@ -22,6 +22,20 @@ class Scroll implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         // Handle cooldowns.
         if (isOnCooldown.get(event.getPlayer()) != null && isOnCooldown.get(event.getPlayer())) {
+            event.setCancelled(true);
+            return;
+        }
+        // Empty hand or vanilla sugar cane where it can't be placed.
+        else if (event.getItem() == null) {
+            return;
+        }
+        // Item with no meta.
+        else if (event.getItem().getItemMeta() == null) {
+            System.out.println("awjrkaht");
+            return;
+        }
+        // Check for default name.
+        else if (event.getItem().getItemMeta().getDisplayName() == null) {
             return;
         }
         // Check if it's a scroll.
@@ -42,6 +56,7 @@ class Scroll implements Listener {
             event.getPlayer().sendMessage("Please report to the server admins how you got a scroll of " +
                     "an invalid spell '" + spellName + "'.");
             event.getPlayer().getInventory().removeItem(new ItemStack(event.getItem()));
+            event.setCancelled(true);
             return;
         }
         if (spell.canBeScroll()) {
@@ -52,10 +67,12 @@ class Scroll implements Listener {
             isOnCooldown.put(event.getPlayer(), true);
             mainPlugin.getServer().getScheduler()
                     .runTaskLater(mainPlugin, () -> isOnCooldown.put(event.getPlayer(), false), 5);
+            event.setCancelled(true);
         } else {
             event.getPlayer().sendMessage("Please report to the server admins how you got a scroll of " +
                     "a non-scrollable spell '" + spellName + "'.");
             event.getPlayer().getInventory().removeItem(new ItemStack(event.getItem()));
+            event.setCancelled(true);
         }
     }
 }

@@ -5,3 +5,8 @@ authors: [Amelorate]
 website: https://github.com/Ameliorate/CivSpellAPI
 
 main: org.ame.civspell.Main
+
+commands:
+  givescroll:
+    description: Give a player a number of magic scrolls. (Defaults to 1 scroll)
+    usage: /givescroll [player] [spell] {number}
