@@ -33,11 +33,9 @@ class Scroll implements Listener {
         else if (event.getAction() == Action.PHYSICAL) {
             return;
         }
-        String spellName = "";
-        for (String part : event.getItem().getItemMeta().getDisplayName().split("Magic Scroll -- ")) {
-            spellName = spellName + part + "Magic Scroll -- ";
-            spellName = spellName.replaceAll("(Magic Scroll -- )+$", ""); // Remove last "Magic Scroll -- " from string.
-        }
+
+        // Remove first "Magic Scroll -- " from name.
+        String spellName = event.getItem().getItemMeta().getDisplayName().replaceAll("^Magic Scroll -- ", "");
 
         Spell spell = SpellManager.spellMap.get(spellName);
         if (spell == null) {
