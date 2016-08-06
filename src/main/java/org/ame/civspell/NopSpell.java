@@ -1,15 +1,19 @@
 package org.ame.civspell;
 
 import org.bukkit.Effect;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 class NopSpell implements Spell {
-
     @Override
-    public void cast(PlayerInteractEvent event) {
-        event.getPlayer().sendMessage("§3The spell wooshes and does nothing.");
-        event.getPlayer().getEyeLocation().getWorld().playEffect(event.getPlayer().getLocation(), Effect.EXPLOSION_HUGE, null, 10);
-        event.getPlayer().getEyeLocation().getWorld().playEffect(event.getPlayer().getLocation(), Effect.GHAST_SHOOT, null, 10);
+    public boolean cast(Block blockClicked, Player player, Action action, BlockFace face, ItemStack itemUsed, SpellCastMethod castForm) {
+        player.sendMessage("§3The spell wooshes and does nothing.");
+        player.getEyeLocation().getWorld().playEffect(player.getLocation(), Effect.EXPLOSION_HUGE, null, 10);
+        player.getEyeLocation().getWorld().playEffect(player.getLocation(), Effect.GHAST_SHOOT, null, 10);
+        return true;
     }
 
     @Override
@@ -25,5 +29,10 @@ class NopSpell implements Spell {
     @Override
     public boolean canBeMemorized() {
         return true;
+    }
+
+    @Override
+    public int manaUsage() {
+        return 2;
     }
 }

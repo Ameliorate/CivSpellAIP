@@ -1,5 +1,6 @@
 package org.ame.civspell;
 
+import net.minecraft.server.v1_10_R1.EntityShulker;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -72,7 +73,8 @@ class Scroll implements Listener {
             return;
         }
         if (spell.canBeScroll()) {
-            spell.cast(event);
+            spell.cast(event.getClickedBlock(), event.getPlayer(), event.getAction(),
+                    event.getBlockFace(), event.getItem(), SpellCastMethod.SCROLL);
             ItemStack toRemove = new ItemStack(event.getItem());
             toRemove.setAmount(1);
             Main.removeFromEitherMainOrOffHand(toRemove, event.getPlayer().getInventory());
