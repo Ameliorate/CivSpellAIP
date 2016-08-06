@@ -1,8 +1,6 @@
 package org.ame.civspell;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,29 +17,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         System.out.println("CivSpellAPI Disabled.");
-    }
-
-    private class NopSpell implements Spell {
-
-        @Override
-        public void cast(PlayerInteractEvent event) {
-            System.out.println("NOP");
-        }
-
-        @Override
-        public boolean canBeScroll() {
-            return true;
-        }
-
-        @Override
-        public boolean canBePage() {
-            return true;
-        }
-
-        @Override
-        public boolean canBeMemorized() {
-            return true;
-        }
     }
 
     /**
