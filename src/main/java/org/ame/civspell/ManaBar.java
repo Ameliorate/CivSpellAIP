@@ -28,16 +28,15 @@ class ManaBar implements Runnable {
                 continue;
             }
             float regenPerSecondFloat = getRegenRate(maxMana);
+            float regenPerSecondFractionalPart = (float) (regenPerSecondFloat - Math.floor(regenPerSecondFloat));
             int regenPerSecond;
-            if (regenPerSecondFloat < 1) {
-                if (new Random().nextFloat() < regenPerSecondFloat) {
-                    regenPerSecond = 1;
-                } else {
-                    regenPerSecond = 0;
-                }
+
+            if (new Random().nextFloat() < regenPerSecondFractionalPart) { // Handle fractional regen.
+                regenPerSecond = (int) (regenPerSecondFloat + 1);
             } else {
                 regenPerSecond = (int) regenPerSecondFloat;
             }
+
             // If regen would put the player above the max mana, set it to the max mana instead.
             if (currentMana < maxMana && currentMana + regenPerSecond >= maxMana) {
                 p.setLevel(maxMana);
