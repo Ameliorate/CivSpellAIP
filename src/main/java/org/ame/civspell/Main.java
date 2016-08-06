@@ -1,16 +1,29 @@
 package org.ame.civspell;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
+        Configuration config = this.getConfig();
+        config.addDefault("Scroll_Name_Format", "§5§ka§r§8Magic Scroll§5§ka§r {NAME}");
+        if (StringUtils.countMatches((String)config.get("Scroll_Name_Format"), "{NAME}") != 1) {
+            throw new IllegalArgumentException("There must be exactly 1 {NAME} tag in Scroll_Name_Format.");
+        }
+        config.options().copyDefaults(true);
+        saveConfig();
+
         SpellManager.addSpell("nop", new NopSpell());
-        this.getCommand("givescroll").setExecutor(new CommandGiveScroll(this));
-        getServer().getPluginManager().registerEvents(new Scroll(this), this);
+
+        this.getCommand("givescroll").setExecutor(new CommandGiveScroll(this, (String)config.get("Scroll_Name_Format")));
+
+        getServer().getPluginManager().registerEvents(new Scroll(this, (String)config.get("Scroll_Name_Format")), this);
         System.out.println("CivSpellAPI Enabled.");
     }
 

@@ -11,11 +11,21 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 
 class Scroll implements Listener {
-    Scroll(Main mainPlugin) {
+    Scroll(Main mainPlugin, String formatString) {
         this.mainPlugin = mainPlugin;
+        String[] fs = formatString.split("\\{NAME}");
+        assert fs.length == 1 || fs.length == 2;
+        this.formatStringPrefix = fs[0];
+        if (fs.length == 2) {
+            this.formatStringPostfix = fs[1];
+        } else {
+            this.formatStringPostfix = "";
+        }
     }
 
     private Main mainPlugin;
+    private String formatStringPrefix;
+    private String formatStringPostfix;
     private static HashMap<Player, Boolean> isOnCooldown = new HashMap<>();
 
     @EventHandler
@@ -40,7 +50,8 @@ class Scroll implements Listener {
         }
         // Check if it's a scroll.
         else if (!(event.getMaterial() == Material.SUGAR_CANE) ||
-                !(event.getItem().getItemMeta().getDisplayName().startsWith("Magic Scroll -- "))) {
+                !(event.getItem().getItemMeta().getDisplayName().startsWith(formatStringPrefix) &&
+                        event.getItem().getItemMeta().getDisplayName().endsWith(formatStringPostfix))) {
             return;
         }
         // Make it not trigger stepping on redstone.
@@ -48,8 +59,9 @@ class Scroll implements Listener {
             return;
         }
 
-        // Remove first "Magic Scroll -- " from name.
-        String spellName = event.getItem().getItemMeta().getDisplayName().replaceAll("^Magic Scroll -- ", "");
+        // Parse spellName out of the item name.
+        String spellName = event.getItem().getItemMeta().getDisplayName().replaceAll("^" + formatStringPrefix, "");
+        spellName = spellName.replaceAll(formatStringPostfix + "$", "");
 
         Spell spell = SpellManager.spellMap.get(spellName);
         if (spell == null) {

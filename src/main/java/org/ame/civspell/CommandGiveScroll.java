@@ -10,11 +10,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 class CommandGiveScroll implements CommandExecutor {
-    CommandGiveScroll(Main mainPlugin) {
+    CommandGiveScroll(Main mainPlugin, String formatString) {
         this.mainPlugin = mainPlugin;
+        this.formatString = formatString;
     }
 
     private Main mainPlugin;
+    private String formatString;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -36,7 +38,7 @@ class CommandGiveScroll implements CommandExecutor {
         Player player = mainPlugin.getServer().getPlayer(playerName);
         ItemStack scroll = new ItemStack(Material.SUGAR_CANE, number);
         ItemMeta meta = scroll.getItemMeta();
-        meta.setDisplayName("Magic Scroll -- " + spellName);
+        meta.setDisplayName(formatString.replaceFirst("\\{NAME}", spellName));
         scroll.setItemMeta(meta);
         player.getInventory().addItem(scroll);
         return true;
