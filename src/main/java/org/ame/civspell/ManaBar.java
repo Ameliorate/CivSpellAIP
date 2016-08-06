@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Random;
+
 class ManaBar implements Runnable {
     ManaBar(Main mainPlugin) {
         this.mainPlugin = mainPlugin;
@@ -28,8 +30,11 @@ class ManaBar implements Runnable {
             float regenPerSecondFloat = getRegenRate(maxMana);
             int regenPerSecond;
             if (regenPerSecondFloat < 1) {
-                regenPerSecond = 0;
-                // random mana
+                if (new Random().nextFloat() < regenPerSecondFloat) {
+                    regenPerSecond = 1;
+                } else {
+                    regenPerSecond = 0;
+                }
             } else {
                 regenPerSecond = (int) regenPerSecondFloat;
             }
@@ -44,12 +49,9 @@ class ManaBar implements Runnable {
         }
     }
 
-    private int getRegenRate(int maxMana) {
+    private float getRegenRate(int maxMana) {
         double minutesToRegenFully = mainPlugin.getConfig().getDouble("Minutes_To_Regen_Fully");
-        int secondsToRegenFully = (int)minutesToRegenFully*60;
-        if (maxMana / secondsToRegenFully == 0) {
-            return 1;
-        }
+        float secondsToRegenFully = (float) (minutesToRegenFully*60);
         return maxMana / secondsToRegenFully;
     }
 
