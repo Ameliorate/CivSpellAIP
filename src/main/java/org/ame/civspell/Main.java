@@ -16,6 +16,8 @@ public class Main extends JavaPlugin {
         if (StringUtils.countMatches((String)config.get("Scroll_Name_Format"), "{NAME}") != 1) {
             throw new IllegalArgumentException("There must be exactly 1 {NAME} tag in Scroll_Name_Format.");
         }
+        config.addDefault("Player_Starting_Mana", 55);
+        config.addDefault("Minutes_To_Regen_Fully", 5d);
         config.options().copyDefaults(true);
         saveConfig();
 
@@ -24,6 +26,9 @@ public class Main extends JavaPlugin {
         this.getCommand("givescroll").setExecutor(new CommandGiveScroll(this, (String)config.get("Scroll_Name_Format")));
 
         getServer().getPluginManager().registerEvents(new Scroll(this, (String)config.get("Scroll_Name_Format")), this);
+
+        getServer().getScheduler().runTaskTimer(this, new ManaBar(this), 0, 20);
+
         System.out.println("CivSpellAPI Enabled.");
     }
 
