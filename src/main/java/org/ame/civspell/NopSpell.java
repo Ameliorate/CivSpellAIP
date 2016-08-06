@@ -8,7 +8,7 @@ class NopSpell implements Spell {
     @Override
     public void cast(PlayerInteractEvent event) {
         event.getPlayer().sendMessage("§3The spell wooshes and does nothing.");
-        event.getPlayer().getEyeLocation().getWorld().playEffect(event.getPlayer().getLocation(), Effect.EXPLOSION_HUGE, null, 0);
+        event.getPlayer().getEyeLocation().getWorld().playEffect(event.getPlayer().getLocation(), Effect.EXPLOSION_HUGE, null, 10);
         event.getPlayer().getEyeLocation().getWorld().playEffect(event.getPlayer().getLocation(), Effect.GHAST_SHOOT, null, 10);
     }
 
