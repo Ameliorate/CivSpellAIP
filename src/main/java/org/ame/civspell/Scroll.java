@@ -66,7 +66,7 @@ class Scroll implements Listener {
 
         Spell spell = SpellManager.spellMap.get(spellName);
         if (spell == null) {
-            event.getPlayer().sendMessage("Please report to the server admins how you got a scroll of " +
+            event.getPlayer().sendMessage("§cPlease report to the server admins how you got a scroll of " +
                     "an invalid spell '" + spellName + "'.");
             Main.removeFromEitherMainOrOffHand(new ItemStack(event.getItem()), event.getPlayer().getInventory());
             event.setCancelled(true);
@@ -83,7 +83,7 @@ class Scroll implements Listener {
                     .runTaskLater(mainPlugin, () -> isOnCooldown.put(event.getPlayer(), false), 5);
             event.setCancelled(true);
         } else {
-            event.getPlayer().sendMessage("Please report to the server admins how you got a scroll of " +
+            event.getPlayer().sendMessage("§cPlease report to the server admins how you got a scroll of " +
                     "a non-scrollable spell '" + spellName + "'.");
             Main.removeFromEitherMainOrOffHand(new ItemStack(event.getItem()), event.getPlayer().getInventory());
             event.setCancelled(true);
