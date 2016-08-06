@@ -1,5 +1,6 @@
 package org.ame.civspell;
 
+import org.ame.civspell.builtin.NopSpell;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
