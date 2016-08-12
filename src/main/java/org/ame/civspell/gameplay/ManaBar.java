@@ -1,13 +1,14 @@
-package org.ame.civspell;
+package org.ame.civspell.gameplay;
 
+import org.ame.civspell.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 
-class ManaBar implements Runnable {
-    ManaBar(Main mainPlugin) {
+public class ManaBar implements Runnable {
+    public ManaBar(Main mainPlugin) {
         this.mainPlugin = mainPlugin;
     }
 

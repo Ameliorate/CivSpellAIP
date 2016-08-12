@@ -1,6 +1,9 @@
-package org.ame.civspell;
+package org.ame.civspell.gameplay;
 
-import net.minecraft.server.v1_10_R1.EntityShulker;
+import org.ame.civspell.Main;
+import org.ame.civspell.Spell;
+import org.ame.civspell.SpellCastMethod;
+import org.ame.civspell.SpellManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-class Scroll implements Listener {
-    Scroll(Main mainPlugin, String formatString) {
+public class Scroll implements Listener {
+    public Scroll(Main mainPlugin, String formatString) {
         this.mainPlugin = mainPlugin;
         String[] fs = formatString.split("\\{NAME}");
         assert fs.length == 1 || fs.length == 2;
@@ -73,11 +76,13 @@ class Scroll implements Listener {
             return;
         }
         if (spell.canBeScroll()) {
-            spell.cast(event.getClickedBlock(), event.getPlayer(), event.getAction(),
+            boolean removeScroll = spell.cast(event.getClickedBlock(), event.getPlayer(), event.getAction(),
                     event.getBlockFace(), event.getItem(), SpellCastMethod.SCROLL);
-            ItemStack toRemove = new ItemStack(event.getItem());
-            toRemove.setAmount(1);
-            Main.removeFromEitherMainOrOffHand(toRemove, event.getPlayer().getInventory());
+            if (removeScroll) {
+                ItemStack toRemove = new ItemStack(event.getItem());
+                toRemove.setAmount(1);
+                Main.removeFromEitherMainOrOffHand(toRemove, event.getPlayer().getInventory());
+            }
             isOnCooldown.put(event.getPlayer(), true);
             mainPlugin.getServer().getScheduler()
                     .runTaskLater(mainPlugin, () -> isOnCooldown.put(event.getPlayer(), false), 5);

@@ -45,6 +45,9 @@ dependencies {
     compile group: 'org.spigotmc', name: 'spigot-api', version: project.property("apiversion")
     compile group: 'org.spigotmc', name: 'spigot', version: project.property("apiversion")
 
+    compile files('lib/GLib.jar')
+    compile files('lib/UserInterfaceLib.jar')
+
     // dependencies go here
     // Example:
     // compile group: 'com.google.guava', name: 'guava', version: '19.0'

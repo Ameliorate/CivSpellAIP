@@ -21,7 +21,6 @@ class CommandGiveScroll implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 || args.length > 3) {
-            sender.sendMessage("/" + label + " [player] [spell] {number}");
             return false;
         }
         String playerName = args[0];
