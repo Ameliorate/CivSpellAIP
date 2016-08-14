@@ -34,18 +34,13 @@ public class Memorization implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        System.out.println("aaa");
         if (!mainPlugin.getConfig().getBoolean("Memorization_Enabled")) {
-            System.out.println("1");
             return;
         } else if (event.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR) {
-            System.out.println("2");
             return;
         } else if (event.getAction() == Action.PHYSICAL) {
-            System.out.println("3");
             return;
         } else if (!event.getPlayer().isSneaking()) {
-            System.out.println("4");
             return;
         }
 
@@ -161,7 +156,7 @@ public class Memorization implements Listener {
             helpText.add("To select a spell, click on it.");
             helpText.add("To cast a spell after selecting it, shift left click with an empty hand.");
             new SpellbookGUI(event.getPlayer().getPlayerListName() + "'s Memorized Spells",
-                    54, memBookID, event.getPlayer(), mainPlugin, true, true, helpText);
+                    54, memBookID, event.getPlayer(), mainPlugin, false, false, helpText);
         }
     }
 }
