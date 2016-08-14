@@ -2,6 +2,7 @@ package org.ame.civspell;
 
 import org.ame.civspell.builtin.NopSpell;
 import org.ame.civspell.gameplay.ManaBar;
+import org.ame.civspell.gameplay.Memorization;
 import org.ame.civspell.gameplay.Scroll;
 import org.ame.civspell.gameplay.SpellBook;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin {
         if (StringUtils.countMatches((String)config.get("Scroll_Name_Format"), "{NAME}") != 1) {
             throw new IllegalArgumentException("There must be exactly 1 {NAME} tag in Scroll_Name_Format.");
         }
+        config.addDefault("Memorization_Enabled", true);
         config.addDefault("Spellbook_Enabled", true);
         config.addDefault("Spellbook_Name", "§bSpellbook");
         config.addDefault("Spellpage_Name_Format", "§5§ka§r§bSpell Page§5§ka§r {NAME}");
@@ -49,6 +51,7 @@ public class Main extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new Scroll(this, (String)config.get("Scroll_Name_Format")), this);
         getServer().getPluginManager().registerEvents(new SpellBook(this), this);
+        getServer().getPluginManager().registerEvents(new Memorization(this), this);
 
         getServer().getScheduler().runTaskTimer(this, new ManaBar(this), 0, 20);
     }

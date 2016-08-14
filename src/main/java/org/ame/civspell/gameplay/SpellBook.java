@@ -3,7 +3,6 @@ package org.ame.civspell.gameplay;
 
 import com.mysql.jdbc.Statement;
 import org.ame.civspell.*;
-import org.ame.civspell.gameplay.bookgui.SpellbookGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -121,7 +120,13 @@ public class SpellBook implements Listener {
         }
 
         if (event.getPlayer().isSneaking()) {
-            new SpellbookGUI("Spellbook " + spellBookID, 54, spellBookID, event.getPlayer(), mainPlugin);
+            ArrayList<String> helpText = new ArrayList<>();
+            helpText.add("To select a spell, click on it.");
+            helpText.add("To put a spell into the book, move it into the interface as if it was an item in a chest.");
+            helpText.add("In order to remove the spell after putting it in, shift click on it.");
+            helpText.add("To cast a spell after selecting it, left or right click with the spellbook.");
+            new SpellbookGUI("Spellbook " + spellBookID, 54, spellBookID, event.getPlayer(), mainPlugin,
+                    true, true, helpText);
         } else {
             String selectedSpellName = null;
             try {

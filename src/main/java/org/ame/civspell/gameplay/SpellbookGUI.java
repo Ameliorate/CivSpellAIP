@@ -1,4 +1,4 @@
-package org.ame.civspell.gameplay.bookgui;
+package org.ame.civspell.gameplay;
 
 import org.ame.civspell.Main;
 import org.ame.civspell.SpellManager;
@@ -23,15 +23,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-public class SpellbookGUI implements Listener {
-    public SpellbookGUI(String name, int size, int bookID, Player displayTo, Main mainPlugin) {
+class SpellbookGUI implements Listener {
+    SpellbookGUI(String name, int size, int bookID, Player displayTo, Main mainPlugin,
+                 boolean allowRemoval, boolean allowInserton, List<String> helpText) {
         this.bookID = bookID;
         this.name = name;
         this.size = size;
-        this.player = displayTo;
         this.guiInventory = Bukkit.createInventory(null, size, name);
         this.mainPlugin = mainPlugin;
 
@@ -42,12 +43,9 @@ public class SpellbookGUI implements Listener {
 
         ItemStack help = new ItemStack(Material.BOOK_AND_QUILL, 1);
         ItemMeta helpMeta = help.getItemMeta();
-        helpMeta.setDisplayName("§5§oTo select a spell, click on it.");
-        ArrayList<String> helpLore = new ArrayList<>();
-        helpLore.add("To put a spell into the book, move it into the interface as if it was an item in a chest.");
-        helpLore.add("In order to remove the spell after putting it in, shift click on it.");
-        helpLore.add("To cast a spell after selecting it, left or right click with the spellbook.");
-        helpMeta.setLore(helpLore);
+        helpMeta.setDisplayName("§5§o" + helpText.get(0));
+        helpText.remove(0);
+        helpMeta.setLore(helpText);
         help.setItemMeta(helpMeta);
 
         guiInventory.setItem(size - 1, close);
@@ -86,7 +84,7 @@ public class SpellbookGUI implements Listener {
             guiInventory.setItem(slot, spellIcon);
         }
 
-        player.openInventory(guiInventory);
+        displayTo.openInventory(guiInventory);
 
         mainPlugin.getServer().getPluginManager().registerEvents(this, mainPlugin);
     }
@@ -94,7 +92,6 @@ public class SpellbookGUI implements Listener {
     private String name;
     private int size;
     private int bookID;
-    private Player player;
     private Inventory guiInventory;
     private Main mainPlugin;
 
@@ -104,18 +101,21 @@ public class SpellbookGUI implements Listener {
             event.setCancelled(true);
         }
 
-        if (event.getClickedInventory()  == null) {
+        if (event.getClickedInventory() == null) {
             return;
         } else if (event.getClickedInventory().getType() != InventoryType.CHEST ||
                 !event.getClickedInventory().getName().equals(name)) {
             return;
-        } else {
-            event.setCancelled(true);
         }
+
+        event.setCancelled(true);
 
         if (event.getSlot() == size - 1) {
             mainPlugin.getServer().getScheduler().runTaskLater(mainPlugin,
                     () -> event.getWhoClicked().closeInventory(), 1);
+            event.getWhoClicked().getLocation().getWorld()
+                    .playEffect(event.getWhoClicked().getLocation(), Effect.CLICK2, null);
+            return;
         }
 
         if (event.getClick() != ClickType.SHIFT_LEFT &&
