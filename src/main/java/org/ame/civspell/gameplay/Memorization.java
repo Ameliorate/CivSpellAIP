@@ -1,10 +1,7 @@
 package org.ame.civspell.gameplay;
 
 import com.mysql.jdbc.Statement;
-import org.ame.civspell.Main;
-import org.ame.civspell.Spell;
-import org.ame.civspell.SpellCastMethod;
-import org.ame.civspell.SpellManager;
+import org.ame.civspell.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -139,16 +136,15 @@ public class Memorization implements Listener {
             boolean shouldReduceMana = toCast.cast(event.getClickedBlock(), event.getPlayer(), event.getAction(),
                     event.getBlockFace(), event.getItem(), SpellCastMethod.SPELL_BOOK);
             if (shouldReduceMana) {
-                if (playerMana < manaUsage) {
-                    // Not enough mana
+                boolean enoughMana = ManaHelper.subtractXp(event.getPlayer(), manaUsage);
+                if (!enoughMana) {
                     int remainder = Math.abs(playerMana - manaUsage);
                     int healthMultiplier = mainPlugin.getConfig().getInt("Mana_Per_Half_Heart");
                     float healthToTake = (float) remainder / healthMultiplier;
                     event.getPlayer().damage(healthToTake);
                     event.getPlayer().setNoDamageTicks(0);
                     event.getPlayer().setLevel(0);
-                } else {
-                    event.getPlayer().setLevel(event.getPlayer().getLevel() - manaUsage);
+                    event.getPlayer().setExp(0);
                 }
             }
         } else {

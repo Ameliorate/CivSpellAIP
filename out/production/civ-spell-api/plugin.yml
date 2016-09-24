@@ -1,0 +1,12 @@
+name: civ-spell-api
+version: 0.0.4-@apitype@-1.10.2-R0.1-SNAPSHOT
+description: Adds an api to add spells to civcraft-type servers
+authors: [Amelorate]
+website: https://github.com/Ameliorate/CivSpellAPI
+
+main: org.ame.civspell.Main
+
+commands:
+  givescroll:
+    description: Give a player a number of magic scrolls. (Defaults to 1 scroll)
+    usage: /givescroll [player] [spell] {number}

@@ -1,7 +1,6 @@
 package org.ame.civspell;
 
 import org.ame.civspell.builtin.NopSpell;
-import org.ame.civspell.gameplay.ManaBar;
 import org.ame.civspell.gameplay.Memorization;
 import org.ame.civspell.gameplay.Scroll;
 import org.ame.civspell.gameplay.SpellBook;
@@ -52,8 +51,6 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Scroll(this, (String)config.get("Scroll_Name_Format")), this);
         getServer().getPluginManager().registerEvents(new SpellBook(this), this);
         getServer().getPluginManager().registerEvents(new Memorization(this), this);
-
-        getServer().getScheduler().runTaskTimer(this, new ManaBar(this), 0, 20);
     }
 
     @Override
