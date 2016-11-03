@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.sql.PreparedStatement;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
+
+import static org.ame.civspell.CastHelper.castSpell;
 
 public class SpellBook implements Listener {
     public SpellBook(Main mainPlugin) {
@@ -35,14 +38,10 @@ public class SpellBook implements Listener {
     }
 
     private Main mainPlugin;
-    private static HashMap<Player, Boolean> isOnCooldown = new HashMap<>();
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (!mainPlugin.getConfig().getBoolean("Spellbook_Enabled")) {
-            return;
-        } else if (isOnCooldown.get(event.getPlayer()) != null && isOnCooldown.get(event.getPlayer())) {
-            event.setCancelled(true);
             return;
         } else if (event.getAction() == Action.PHYSICAL) {
             return;
@@ -153,40 +152,11 @@ public class SpellBook implements Listener {
                 return;
             }
 
-            Spell toCast = SpellManager.spellMap.get(selectedSpellName);
-            if (toCast == null) {
-                event.getPlayer().sendMessage("§cThat's not a valid spell!");
-                try {
-                    PreparedStatement stmt = mainPlugin.database
-                            .prepareStatement("DELETE FROM spells WHERE name=?");
-                    stmt.setString(1, selectedSpellName);
-                    stmt.executeUpdate();
-                } catch (SQLException e) {
-                    mainPlugin.getLogger().log(Level.SEVERE, "Failed to remove invalid spell.", e);
-                }
-                return;
-            }
-
-            isOnCooldown.put(event.getPlayer(), true);
-            mainPlugin.getServer().getScheduler()
-                    .runTaskLater(mainPlugin, () -> isOnCooldown.put(event.getPlayer(), false), 5);
-
-            int manaUsage = toCast.manaUsage();
-            int playerMana = event.getPlayer().getLevel();
-
-            boolean shouldReduceMana = toCast.cast(event.getClickedBlock(), event.getPlayer(), event.getAction(),
-                    event.getBlockFace(), event.getItem(), SpellCastMethod.SPELL_BOOK);
-            if (shouldReduceMana) {
-                boolean enoughMana = ManaHelper.subtractXp(event.getPlayer(), manaUsage);
-                if (!enoughMana) {
-                    int remainder = Math.abs(playerMana - manaUsage);
-                    int healthMultiplier = mainPlugin.getConfig().getInt("Mana_Per_Half_Heart");
-                    float healthToTake = (float) remainder / healthMultiplier;
-                    event.getPlayer().damage(healthToTake);
-                    event.getPlayer().setNoDamageTicks(0);
-                    event.getPlayer().setLevel(0);
-                    event.getPlayer().setExp(0);
-                }
+            boolean result = CastHelper.castSpell(selectedSpellName, event.getPlayer(), SpellCastMethod.SPELL_BOOK,
+                    event.getHand() == EquipmentSlot.HAND, event.getClickedBlock(), event.getAction(),
+                    event.getBlockFace(), mainPlugin);
+            if (result) {
+                event.setCancelled(true);
             }
         }
     }

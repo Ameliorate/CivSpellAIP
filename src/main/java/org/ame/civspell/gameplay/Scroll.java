@@ -1,15 +1,13 @@
 package org.ame.civspell.gameplay;
 
-import org.ame.civspell.Main;
-import org.ame.civspell.Spell;
-import org.ame.civspell.SpellCastMethod;
-import org.ame.civspell.SpellManager;
+import org.ame.civspell.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -30,17 +28,11 @@ public class Scroll implements Listener {
     private Main mainPlugin;
     private String formatStringPrefix;
     private String formatStringPostfix;
-    private static HashMap<Player, Boolean> isOnCooldown = new HashMap<>();
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        // Handle cooldowns.
-        if (isOnCooldown.get(event.getPlayer()) != null && isOnCooldown.get(event.getPlayer())) {
-            event.setCancelled(true);
-            return;
-        }
         // Empty hand or vanilla sugar cane where it can't be placed.
-        else if (event.getItem() == null) {
+        if (event.getItem() == null) {
             return;
         }
         // Item with no meta.
@@ -67,30 +59,11 @@ public class Scroll implements Listener {
         String spellName = event.getItem().getItemMeta().getDisplayName().replaceAll("^" + formatStringPrefix, "");
         spellName = spellName.replaceAll(formatStringPostfix + "$", "");
 
-        Spell spell = SpellManager.spellMap.get(spellName);
-        if (spell == null) {
-            event.getPlayer().sendMessage("§cPlease report to the server admins how you got a scroll of " +
-                    "an invalid spell '" + spellName + "'.");
-            Main.removeFromEitherMainOrOffHand(new ItemStack(event.getItem()), event.getPlayer().getInventory());
-            event.setCancelled(true);
-            return;
-        }
-        if (spell.canBeScroll()) {
-            boolean removeScroll = spell.cast(event.getClickedBlock(), event.getPlayer(), event.getAction(),
-                    event.getBlockFace(), event.getItem(), SpellCastMethod.SCROLL);
-            if (removeScroll) {
-                ItemStack toRemove = new ItemStack(event.getItem());
-                toRemove.setAmount(1);
-                Main.removeFromEitherMainOrOffHand(toRemove, event.getPlayer().getInventory());
-            }
-            isOnCooldown.put(event.getPlayer(), true);
-            mainPlugin.getServer().getScheduler()
-                    .runTaskLater(mainPlugin, () -> isOnCooldown.put(event.getPlayer(), false), 5);
-            event.setCancelled(true);
-        } else {
-            event.getPlayer().sendMessage("§cPlease report to the server admins how you got a scroll of " +
-                    "a non-scrollable spell '" + spellName + "'.");
-            Main.removeFromEitherMainOrOffHand(new ItemStack(event.getItem()), event.getPlayer().getInventory());
+        boolean result = CastHelper.castSpell(spellName, event.getPlayer(), SpellCastMethod.SCROLL,
+                event.getHand() == EquipmentSlot.HAND, event.getClickedBlock(), event.getAction(),
+                event.getBlockFace(), mainPlugin);
+
+        if (result) {
             event.setCancelled(true);
         }
     }
