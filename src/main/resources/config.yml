@@ -1,0 +1,12 @@
+spellNameFormat: &5&ka&r&bMagic Scroll&5&ka&r {NAME}
+memorizationEnabled: true
+spellbookEnabled: true
+spellbookName: &bSpellbook
+spellpageNameFormat: &5&ka&r&bSpell Page&5&ka&r {NAME}
+manaPerHalfHeart: 1
+Mysql:
+  username: user
+  password: pass
+  database: civspellapi
+  hostname: localhost
+  port: 3306

@@ -33,7 +33,7 @@ public class Memorization implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (!mainPlugin.getConfig().getBoolean("Memorization_Enabled")) {
+        if (!mainPlugin.config.isMemorizationEnabled()) {
             return;
         } else if (event.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR) {
             return;

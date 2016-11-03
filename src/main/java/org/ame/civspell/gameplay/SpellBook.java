@@ -41,7 +41,7 @@ public class SpellBook implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (!mainPlugin.getConfig().getBoolean("Spellbook_Enabled")) {
+        if (!mainPlugin.config.isSpellbookEnabled()) {
             return;
         } else if (event.getAction() == Action.PHYSICAL) {
             return;
