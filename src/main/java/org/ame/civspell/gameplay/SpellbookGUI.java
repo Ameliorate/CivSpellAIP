@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import static org.ame.civspell.SpellManager.spellMap;
+
 class SpellbookGUI implements Listener {
     SpellbookGUI(String name, int size, int bookID, Player displayTo, Main mainPlugin,
                  boolean allowRemoval, boolean allowInserton, List<String> helpText) {
@@ -68,7 +70,7 @@ class SpellbookGUI implements Listener {
         }
 
         for (Integer slot : spellMap.keySet()) {
-            if (!SpellManager.spellMap.containsKey(spellMap.get(slot))) {
+            if (!spellMap.containsKey(spellMap.get(slot))) {
                 mainPlugin.getLogger().log(Level.WARNING, "Invalid spell in database: " + spellMap.get(slot));
                 continue;
             }
@@ -77,7 +79,7 @@ class SpellbookGUI implements Listener {
             ItemMeta spellIconMeta = spellIcon.getItemMeta();
             spellIconMeta.setDisplayName("§3" + spellMap.get(slot));
             ArrayList<String> spellIconLore = new ArrayList<>();
-            spellIconLore.add("§7Mana to cast: " + SpellManager.spellMap.get(spellMap.get(slot)).manaUsage());
+            spellIconLore.add("§7Mana to cast: " + mainPlugin.config.getSpell(spellMap.get(slot)).manaCost);
             spellIconMeta.setLore(spellIconLore);
             spellIcon.setItemMeta(spellIconMeta);
 
@@ -156,7 +158,7 @@ class SpellbookGUI implements Listener {
                     .replaceFirst(Pattern.quote(pageNamePrefix), "")
                     .replaceAll(Pattern.quote(pageNameSuffix) + "$", "");
 
-            if (SpellManager.spellMap.get(spellName) == null) {
+            if (spellMap.get(spellName) == null) {
                 event.getWhoClicked().setItemOnCursor(null);
                 event.getWhoClicked().sendMessage(ChatColor.RED + "That itemstack contained an invalid spell!");
             }
@@ -171,7 +173,7 @@ class SpellbookGUI implements Listener {
             ItemMeta spellIconMeta = spellIcon.getItemMeta();
             spellIconMeta.setDisplayName("§3" + spellName);
             ArrayList<String> spellIconLore = new ArrayList<>();
-            spellIconLore.add("§7Mana to cast: " + SpellManager.spellMap.get(spellName).manaUsage());
+            spellIconLore.add("§7Mana to cast: " + mainPlugin.config.getSpell(spellName).manaCost);
             spellIconMeta.setLore(spellIconLore);
             spellIcon.setItemMeta(spellIconMeta);
             guiInventory.setItem(event.getSlot(), spellIcon);

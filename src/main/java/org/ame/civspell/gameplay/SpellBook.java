@@ -141,7 +141,7 @@ public class SpellBook implements Listener {
                     selectedSpellName = spellResult.getString("name");
                 }
                 if (selectedSpellName == null) {
-                    selectedSpellName = "nop";
+                    selectedSpellName = "__nop";
                 }
             } catch (SQLException e) {
                 mainPlugin.getLogger().log(Level.SEVERE, "Failed to set spell to cast.", e);

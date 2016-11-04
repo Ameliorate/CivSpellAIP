@@ -23,16 +23,17 @@ public class CastHelper {
      *                     this boolean is ignored.
      * @return Weather or not the spell casted properly.
      */
-    public static boolean castSpell(String spellName, Player caster, SpellCastMethod castMethod, boolean mainHandCast,
+    public static boolean castSpell(String playerVisibleSpellName, Player caster, SpellCastMethod castMethod, boolean mainHandCast,
                                     Block blockClicked, Action castAction, BlockFace castBlockFace, Main mainPlugin) {
-        Spell spell = SpellManager.spellMap.get(spellName);
+        SpellConfig.Spell configSpell = mainPlugin.config.getSpell(playerVisibleSpellName);
+        Spell spell = SpellManager.spellMap.get(configSpell.rawSpellToCast);
         if (spell == null) {
             caster.sendMessage("§cPlease report to the server admins how you got a scroll of " +
-                    "an invalid spell '" + spellName + "'.");
+                    "an invalid spell '" + playerVisibleSpellName + "'.");
             return false;
-        } else if ((castMethod == SpellCastMethod.SCROLL && !spell.canBeScroll()) ||
-                (castMethod == SPELL_BOOK && !spell.canBePage()) ||
-                (castMethod == SpellCastMethod.MEMORIZED && !spell.canBeMemorized())) {
+        } else if ((castMethod == SpellCastMethod.SCROLL && !configSpell.isScrollCastable) ||
+                (castMethod == SPELL_BOOK && !configSpell.isScrollCastable) ||
+                (castMethod == SpellCastMethod.MEMORIZED && !configSpell.isMemoryCastable)) {
             return false;
         } else if (isOnCooldown.contains(caster.getUniqueId())) {
             return false;
@@ -55,7 +56,8 @@ public class CastHelper {
                     return false;
                 }
 
-                boolean removeScroll = spell.cast(blockClicked, caster, castAction, castBlockFace, spellScroll, castMethod);
+                boolean removeScroll = spell.cast(blockClicked, caster, castAction, castBlockFace, spellScroll,
+                        castMethod, configSpell.config);
                 if (removeScroll) {
                     ItemStack toRemove = new ItemStack(spellScroll);
                     toRemove.setAmount(1);
@@ -75,15 +77,16 @@ public class CastHelper {
                         castItem = caster.getInventory().getItemInOffHand();
                     }
                 }
-                boolean costsExp = spell.cast(blockClicked, caster, castAction, castBlockFace, castItem, castMethod);
+                boolean costsExp = spell.cast(blockClicked, caster, castAction, castBlockFace, castItem, castMethod,
+                        configSpell.config);
                 if (costsExp) {
-                    int manaUsage = spell.manaUsage();
+                    float manaUsage = (float) configSpell.manaCost;
                     int playerMana = caster.getLevel();
                     boolean enoughMana = ManaHelper.subtractXp(caster, manaUsage);
                     if (!enoughMana) {
-                        int remainder = Math.abs(playerMana - manaUsage);
+                        float remainder = Math.abs(playerMana - manaUsage);
                         double healthMultiplier = mainPlugin.config.getManaPerHalfHeart();
-                        double healthToTake = (float) remainder / healthMultiplier;
+                        double healthToTake = remainder / healthMultiplier;
                         caster.damage(healthToTake);
                         caster.setNoDamageTicks(0);
                         caster.setLevel(0);

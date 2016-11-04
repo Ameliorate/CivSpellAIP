@@ -31,6 +31,18 @@ public class SpellConfig {
         this.mySQLHostname = config.getString("Mysql.hostname", "localhost");
         this.mySQLPort = config.getInt("Mysql.port", 3306);
 
+        spells = new HashMap<>();
+
+        Spell nopSpell = new Spell();
+        nopSpell.playerVisibleName = "__nop";
+        nopSpell.rawSpellToCast = "nop";
+        nopSpell.manaCost = 2;
+        nopSpell.isScrollCastable = true;
+        nopSpell.isSpellbookCastable = true;
+        nopSpell.isMemoryCastable = true;
+        nopSpell.config = null;
+        spells.put("__nop", nopSpell);
+
         ConfigurationSection spellsSection = config.getConfigurationSection("spells");
         if (spellsSection != null) {
             for (String playerSpellName : spellsSection.getKeys(false)) {
@@ -67,7 +79,7 @@ public class SpellConfig {
     private String mySQLHostname;
     private int mySQLPort;
 
-    private HashMap<String, Spell> spells = new HashMap<>();
+    private HashMap<String, Spell> spells;
 
     public String getSpellNameFormat() {
         return spellNameFormat;
