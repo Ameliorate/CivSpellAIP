@@ -82,8 +82,8 @@ public class CastHelper {
                     boolean enoughMana = ManaHelper.subtractXp(caster, manaUsage);
                     if (!enoughMana) {
                         int remainder = Math.abs(playerMana - manaUsage);
-                        int healthMultiplier = mainPlugin.getConfig().getInt("Mana_Per_Half_Heart");
-                        float healthToTake = (float) remainder / healthMultiplier;
+                        double healthMultiplier = mainPlugin.config.getManaPerHalfHeart();
+                        double healthToTake = (float) remainder / healthMultiplier;
                         caster.damage(healthToTake);
                         caster.setNoDamageTicks(0);
                         caster.setLevel(0);
