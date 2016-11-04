@@ -125,7 +125,7 @@ class SpellbookGUI implements Listener {
                     .playEffect(event.getWhoClicked().getLocation(), Effect.CLICK2, null);
         }
 
-        String[] pageNameSplit = mainPlugin.getConfig().getString("Spellpage_Name_Format").split("\\{NAME}");
+        String[] pageNameSplit = mainPlugin.config.getSpellpageNameFormat().split("\\{NAME}");
         String pageNamePrefix = pageNameSplit[0];
         String pageNameSuffix = "";
         if (pageNameSplit.length == 2) {
@@ -222,7 +222,7 @@ class SpellbookGUI implements Listener {
 
                 ItemStack spellPage = new ItemStack(Material.PAPER, 1);
                 ItemMeta spellPageMeta = spellPage.getItemMeta();
-                spellPageMeta.setDisplayName(mainPlugin.getConfig().getString("Spellpage_Name_Format")
+                spellPageMeta.setDisplayName(mainPlugin.config.getSpellpageNameFormat()
                         .replaceFirst("\\{NAME}", spellName));
                 spellPage.setItemMeta(spellPageMeta);
 

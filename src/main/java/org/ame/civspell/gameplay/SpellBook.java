@@ -57,7 +57,7 @@ public class SpellBook implements Listener {
             return;
         }
         // Check if a spellbook.
-        else if (!event.getItem().getItemMeta().getDisplayName().equals(mainPlugin.getConfig().getString("Spellbook_Name"))) {
+        else if (!event.getItem().getItemMeta().getDisplayName().equals(mainPlugin.config.getSpellbookName())) {
             return;
         } else if (event.getMaterial() != Material.ENCHANTED_BOOK) {
             return;

@@ -42,7 +42,6 @@ public class SpellConfig {
     private String mySQLHostname;
     private int mySQLPort;
 
-
     public String getSpellNameFormat() {
         return spellNameFormat;
     }
