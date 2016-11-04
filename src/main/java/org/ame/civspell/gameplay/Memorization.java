@@ -3,7 +3,6 @@ package org.ame.civspell.gameplay;
 import com.mysql.jdbc.Statement;
 import org.ame.civspell.*;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -14,10 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
-
-import static org.ame.civspell.CastHelper.castSpell;
 
 public class Memorization implements Listener {
     public Memorization(Main mainPlugin) {
