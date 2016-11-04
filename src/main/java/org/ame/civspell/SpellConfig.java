@@ -2,6 +2,9 @@ package org.ame.civspell;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.HashMap;
 
 /**
  * Parses the config to a convent getter interface.
@@ -27,6 +30,28 @@ public class SpellConfig {
         this.mySQLDatabase = config.getString("Mysql.database", "civspellapi");
         this.mySQLHostname = config.getString("Mysql.hostname", "localhost");
         this.mySQLPort = config.getInt("Mysql.port", 3306);
+
+        ConfigurationSection spellsSection = config.getConfigurationSection("spells");
+        if (spellsSection != null) {
+            for (String playerSpellName : spellsSection.getKeys(false)) {
+                ConfigurationSection individualSpellSection = spellsSection.getConfigurationSection(playerSpellName);
+                Spell spell = new Spell();
+
+                if (individualSpellSection == null) {
+                    continue;
+                }
+
+                spell.playerVisibleName = playerSpellName;
+                spell.rawSpellToCast = individualSpellSection.getString("spell", "nop");
+                spell.manaCost = individualSpellSection.getDouble("manaCost", 0);
+                spell.isScrollCastable = individualSpellSection.getBoolean("scrollCastable", false);
+                spell.isSpellbookCastable = individualSpellSection.getBoolean("spellbookCastable", false);
+                spell.isMemoryCastable = individualSpellSection.getBoolean("memoryCastable", false);
+                spell.config = individualSpellSection.getConfigurationSection("config");
+
+                spells.put(playerSpellName, spell);
+            }
+        }
     }
 
     private String spellNameFormat;
@@ -41,6 +66,8 @@ public class SpellConfig {
     private String mySQLDatabase;
     private String mySQLHostname;
     private int mySQLPort;
+
+    private HashMap<String, Spell> spells = new HashMap<>();
 
     public String getSpellNameFormat() {
         return spellNameFormat;
@@ -84,5 +111,19 @@ public class SpellConfig {
 
     public int getMySQLPort() {
         return mySQLPort;
+    }
+
+    public Spell getSpell(String playerVisibleSpellName) {
+        return spells.get(playerVisibleSpellName);
+    }
+
+    public class Spell {
+        public String playerVisibleName;
+        public String rawSpellToCast;
+        public double manaCost;
+        public boolean isScrollCastable;
+        public boolean isSpellbookCastable;
+        public boolean isMemoryCastable;
+        public ConfigurationSection config;
     }
 }
