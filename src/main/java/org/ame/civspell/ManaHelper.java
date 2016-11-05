@@ -2,6 +2,8 @@ package org.ame.civspell;
 
 import org.bukkit.entity.Player;
 
+import static sun.audio.AudioPlayer.player;
+
 /**
  * Several methods assisting in using the mana/exp bar.
  */
@@ -19,12 +21,25 @@ public class ManaHelper {
     }
 
     /**
-     *
+     * @return The amount of exp the player has past the previous level.
      */
     public static float getPlayerExtraXp(Player player) {
         int playerLevel = player.getLevel();
         float percentNext = player.getExp();
         return percentNext * xpInLevel(playerLevel + 1);
+    }
+
+    /**
+     * @return The total number of exp orbs the player with the given level has.
+     */
+    public static float totalXp(int playerLevel, float percentNext) {
+        float extraXp = percentNext * xpInLevel(playerLevel + 1);
+
+        if (playerLevel == 0) {
+            return extraXp;
+        } else {
+            return totalXp(playerLevel - 1, 0) + extraXp;
+        }
     }
 
     /**
@@ -36,7 +51,6 @@ public class ManaHelper {
 
         // get initial values
         int playerLevel = player.getLevel();
-        System.out.println(playerLevel);
         float percentNext = player.getExp();
 
         // if the player has no extra XP (exactly on the level mark)

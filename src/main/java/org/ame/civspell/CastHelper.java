@@ -81,12 +81,11 @@ public class CastHelper {
                         configSpell.config);
                 if (costsExp) {
                     float manaUsage = (float) configSpell.manaCost;
-                    int playerMana = caster.getLevel();
+                    float playerMana = ManaHelper.totalXp(caster.getLevel(), caster.getExp());
                     boolean enoughMana = ManaHelper.subtractXp(caster, manaUsage);
                     if (!enoughMana) {
-                        float remainder = Math.abs(playerMana - manaUsage);
                         double healthMultiplier = mainPlugin.config.getManaPerHalfHeart();
-                        double healthToTake = remainder / healthMultiplier;
+                        double healthToTake = Math.abs(playerMana * healthMultiplier - manaUsage);
                         caster.damage(healthToTake);
                         caster.setNoDamageTicks(0);
                         caster.setLevel(0);
