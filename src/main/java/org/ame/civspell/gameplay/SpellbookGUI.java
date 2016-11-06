@@ -25,10 +25,12 @@ import java.util.regex.Pattern;
 
 class SpellbookGUI implements Listener {
     SpellbookGUI(String name, int size, int bookID, Player displayTo, Main mainPlugin,
-                 boolean allowRemoval, boolean allowInserton, List<String> helpText) {
+                 boolean allowRemoval, boolean allowInsertion, List<String> helpText) {
         this.bookID = bookID;
         this.name = name;
         this.size = size;
+        this.allowRemoval = allowRemoval;
+        this.allowInsertion = allowInsertion;
         this.guiInventory = Bukkit.createInventory(null, size, name);
         this.mainPlugin = mainPlugin;
 
@@ -90,6 +92,8 @@ class SpellbookGUI implements Listener {
     private int bookID;
     private Inventory guiInventory;
     private Main mainPlugin;
+    private boolean allowRemoval;
+    private boolean allowInsertion;
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
@@ -142,7 +146,8 @@ class SpellbookGUI implements Listener {
             } catch (SQLException e) {
                 mainPlugin.getLogger().log(Level.SEVERE, "Failed to set spellbook slot.", e);
             }
-        } else if (event.getSlot() < size - 2 &&
+        } else if ( allowInsertion &&
+                event.getSlot() < size - 2 &&
                 event.getCursor().getType() == Material.PAPER &&
                 event.getCursor().hasItemMeta() &&
                 event.getCursor().getItemMeta().hasDisplayName() &&
@@ -185,7 +190,8 @@ class SpellbookGUI implements Listener {
             }
         }
 
-        if ((event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT) &&
+        if ( allowRemoval &&
+                (event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT) &&
                 event.getSlot() < size - 2
                 ) {
             String spellName = null;
