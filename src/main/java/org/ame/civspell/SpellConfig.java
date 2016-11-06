@@ -1,6 +1,7 @@
 package org.ame.civspell;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -40,6 +41,7 @@ public class SpellConfig {
         nopSpell.isScrollCastable = true;
         nopSpell.isSpellbookCastable = true;
         nopSpell.isMemoryCastable = true;
+        nopSpell.guiIcon = Material.PAPER;
         nopSpell.config = null;
         spells.put("__nop", nopSpell);
 
@@ -59,6 +61,7 @@ public class SpellConfig {
                 spell.isScrollCastable = individualSpellSection.getBoolean("scrollCastable", false);
                 spell.isSpellbookCastable = individualSpellSection.getBoolean("spellbookCastable", false);
                 spell.isMemoryCastable = individualSpellSection.getBoolean("memoryCastable", false);
+                spell.guiIcon = Material.valueOf(individualSpellSection.getString("icon", "PAPER"));
                 spell.config = individualSpellSection.getConfigurationSection("config");
 
                 spells.put(playerSpellName, spell);
@@ -136,6 +139,7 @@ public class SpellConfig {
         public boolean isScrollCastable;
         public boolean isSpellbookCastable;
         public boolean isMemoryCastable;
+        public Material guiIcon;
         public ConfigurationSection config;
     }
 }

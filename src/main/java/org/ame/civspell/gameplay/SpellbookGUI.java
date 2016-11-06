@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import static org.ame.civspell.SpellManager.spellMap;
-
 class SpellbookGUI implements Listener {
     SpellbookGUI(String name, int size, int bookID, Player displayTo, Main mainPlugin,
                  boolean allowRemoval, boolean allowInserton, List<String> helpText) {
@@ -70,12 +68,12 @@ class SpellbookGUI implements Listener {
         }
 
         for (Integer slot : spellMap.keySet()) {
-            if (!spellMap.containsKey(spellMap.get(slot))) {
+            if (mainPlugin.config.getSpell(spellMap.get(slot)) == null) {
                 mainPlugin.getLogger().log(Level.WARNING, "Invalid spell in database: " + spellMap.get(slot));
                 continue;
             }
 
-            ItemStack spellIcon = new ItemStack(Material.PAPER, 1);
+            ItemStack spellIcon = new ItemStack(mainPlugin.config.getSpell(spellMap.get(slot)).guiIcon, 1);
             ItemMeta spellIconMeta = spellIcon.getItemMeta();
             spellIconMeta.setDisplayName("§3" + spellMap.get(slot));
             ArrayList<String> spellIconLore = new ArrayList<>();
@@ -158,7 +156,7 @@ class SpellbookGUI implements Listener {
                     .replaceFirst(Pattern.quote(pageNamePrefix), "")
                     .replaceAll(Pattern.quote(pageNameSuffix) + "$", "");
 
-            if (spellMap.get(spellName) == null) {
+            if (mainPlugin.config.getSpell(spellName) == null) {
                 event.getWhoClicked().setItemOnCursor(null);
                 event.getWhoClicked().sendMessage(ChatColor.RED + "That itemstack contained an invalid spell!");
             }
@@ -169,7 +167,7 @@ class SpellbookGUI implements Listener {
                 event.getCursor().setAmount(event.getCursor().getAmount() - 1);
             }
 
-            ItemStack spellIcon = new ItemStack(Material.PAPER, 1);
+            ItemStack spellIcon = new ItemStack(mainPlugin.config.getSpell(spellName).guiIcon, 1);
             ItemMeta spellIconMeta = spellIcon.getItemMeta();
             spellIconMeta.setDisplayName("§3" + spellName);
             ArrayList<String> spellIconLore = new ArrayList<>();

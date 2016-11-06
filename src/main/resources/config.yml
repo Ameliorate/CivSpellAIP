@@ -18,5 +18,7 @@ spells:
     scrollCastable: true
     spellbookCastable: true
     memoryCastable: true # The above three default to false
+    icon: PAPER # See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for all possible icon items
+                # Defaults to PAPER
     # config: # nop does not take a config, however other spells do.
 
