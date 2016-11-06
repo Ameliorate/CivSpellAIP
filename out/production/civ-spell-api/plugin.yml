@@ -10,3 +10,16 @@ commands:
   givescroll:
     description: Give a player a number of magic scrolls. (Defaults to 1 scroll)
     usage: /givescroll [player] [spell] {number}
+  csreload:
+    description: Reloads the config of CivSpellAPI from disk.
+    usage: /csreload
+    permision: civ-spell-api.reload
+    aliases: csr
+
+permisions:
+  civ-spell-api.*:
+    description: Gives access to all CivSpellAPI commands.
+    children:
+      civ-spell-api.reload: true
+    civ-spell-api.reload:
+      description: Reload the config from disk.
