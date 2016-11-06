@@ -1,7 +1,6 @@
 package org.ame.civspell.gameplay;
 
 import org.ame.civspell.Main;
-import org.ame.civspell.SpellManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -10,10 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -98,7 +94,8 @@ class SpellbookGUI implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT) {
-            event.setCancelled(true);
+            event.setCancelled(true); // Also counts if the player shift clicked their inventory, and prevents inserting
+                                      // items into the GUI.
         }
 
         if (event.getClickedInventory() == null) {
@@ -235,6 +232,18 @@ class SpellbookGUI implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         if (event.getInventory().getName().equals(name)) {
             HandlerList.unregisterAll(this);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        // Prevents insertion into the spellbook gui, see https://github.com/Ameliorate/CivSpellAPI/issues/9
+        if (event.getInventory() != null &&
+                event.getCursor() != null &&
+                event.getCursor().getType() != Material.AIR &&
+                event.getInventory().getType() == InventoryType.CHEST ||
+                event.getInventory().getName().equals(name)) {
+            event.setCancelled(true);
         }
     }
 }
