@@ -1,0 +1,22 @@
+spellNameFormat: "&5&ka&r&bMagic Scroll&5&ka&r {NAME}"
+memorizationEnabled: true
+spellbookEnabled: true
+spellbookName: "&bSpellbook"
+spellpageNameFormat: "&5&ka&r&bSpell Page&5&ka&r {NAME}"
+manaPerHalfHeart: 1
+Mysql:
+  username: user
+  password: pass
+  database: civspellapi
+  hostname: localhost
+  port: 3306
+
+spells:
+  Do Nothing:
+    spell: nop # Defaults to "nop" if not present.
+    manaCost: 1 # Defaults to 0
+    scrollCastable: true
+    spellbookCastable: true
+    memoryCastable: true # The above three default to false
+    # config: # nop does not take a config, however other spells do.
+
