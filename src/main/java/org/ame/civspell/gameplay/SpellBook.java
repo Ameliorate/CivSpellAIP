@@ -3,7 +3,6 @@ package org.ame.civspell.gameplay;
 
 import com.mysql.jdbc.Statement;
 import org.ame.civspell.*;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -55,7 +54,7 @@ public class SpellBook implements Listener {
         // Check if a spellbook.
         else if (!event.getItem().getItemMeta().getDisplayName().equals(mainPlugin.config.getSpellbookName())) {
             return;
-        } else if (event.getMaterial() != Material.ENCHANTED_BOOK) {
+        } else if (event.getMaterial() != mainPlugin.config.getSpellbookMaterial()) {
             return;
         }
 

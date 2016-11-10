@@ -22,6 +22,7 @@ public class SpellConfig {
         this.spellbookEnabled = config.getBoolean("spellbookEnabled", true);
         this.spellbookName = ChatColor.translateAlternateColorCodes('&',
                 config.getString("spellbookName", "&bSpellbook"));
+        this.spellbookMaterial = Material.valueOf(config.getString("spellbookMaterial", "ENCHANTED_BOOK"));
         this.spellpageNameFormat = ChatColor.translateAlternateColorCodes('&',
                 config.getString("spellpageNameFormat", "&5&ka&r&bSpell Page&5&ka&r {NAME}"));
         this.manaPerHalfHeart = config.getDouble("manaPerHalfHeart", 1);
@@ -73,6 +74,7 @@ public class SpellConfig {
     private boolean memorizationEnabled;
     private boolean spellbookEnabled;
     private String spellbookName;
+    private Material spellbookMaterial;
     private String spellpageNameFormat;
     private double manaPerHalfHeart;
 
@@ -130,6 +132,10 @@ public class SpellConfig {
 
     public Spell getSpell(String playerVisibleSpellName) {
         return spells.get(playerVisibleSpellName);
+    }
+
+    public Material getSpellbookMaterial() {
+        return spellbookMaterial;
     }
 
     public class Spell {

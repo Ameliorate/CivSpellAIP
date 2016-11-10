@@ -2,8 +2,11 @@ spellNameFormat: "&5&ka&r&bMagic Scroll&5&ka&r {NAME}"
 memorizationEnabled: true
 spellbookEnabled: true
 spellbookName: "&bSpellbook"
+spellbookMaterial: ENCHANTED_BOOK # See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for all possible
+                                  # items for spellbooks.
 spellpageNameFormat: "&5&ka&r&bSpell Page&5&ka&r {NAME}"
 manaPerHalfHeart: 1
+
 Mysql:
   username: user
   password: pass
@@ -18,7 +21,6 @@ spells:
     scrollCastable: true
     spellbookCastable: true
     memoryCastable: true # The above three default to false
-    icon: PAPER # See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for all possible icon items
-                # Defaults to PAPER
+    icon: PAPER # Defaults to PAPER.
     # config: # nop does not take a config, however other spells do.
 
