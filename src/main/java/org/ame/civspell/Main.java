@@ -1,6 +1,9 @@
 package org.ame.civspell;
 
 import org.ame.civspell.builtin.NopSpell;
+import org.ame.civspell.commands.GiveScrollCommand;
+import org.ame.civspell.commands.GiveSpellbookCommand;
+import org.ame.civspell.commands.GiveSpellpageCommand;
 import org.ame.civspell.commands.ReloadCommand;
 import org.ame.civspell.gameplay.Memorization;
 import org.ame.civspell.gameplay.Scroll;
@@ -27,7 +30,9 @@ public class Main extends JavaPlugin {
 
         SpellManager.addSpell("nop", new NopSpell());
 
-        this.getCommand("givescroll").setExecutor(new CommandGiveScroll(this, config.getSpellNameFormat()));
+        getCommand("csgivescroll").setExecutor(new GiveScrollCommand(this));
+        getCommand("csgivespellpage").setExecutor(new GiveSpellpageCommand(this));
+        getCommand("csgivespellbook").setExecutor(new GiveSpellbookCommand(this));
         getCommand("csreload").setExecutor(new ReloadCommand(this));
 
         getServer().getPluginManager().registerEvents(new Scroll(this, config.getSpellNameFormat()), this);

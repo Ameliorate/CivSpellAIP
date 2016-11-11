@@ -20,8 +20,7 @@ public class ReloadCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!commandSender.hasPermission("civ-spell-api.reload")) {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
-            System.out.println("noperm");
-            return false;
+            return true;
         }
 
         mainPlugin.reloadConfig();
