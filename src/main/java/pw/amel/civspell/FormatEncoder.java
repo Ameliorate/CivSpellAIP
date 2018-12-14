@@ -1,4 +1,4 @@
-package org.ame.civspell;
+package pw.amel.civspell;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;

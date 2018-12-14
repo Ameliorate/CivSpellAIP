@@ -1,7 +1,7 @@
-package org.ame.civspell.builtin;
+package pw.amel.civspell.builtin;
 
-import org.ame.civspell.Spell;
-import org.ame.civspell.SpellCastMethod;
+import pw.amel.civspell.Spell;
+import pw.amel.civspell.SpellCastMethod;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

@@ -1,4 +1,4 @@
-package org.ame.civspell;
+package pw.amel.civspell;
 
 
 import org.bukkit.block.Block;

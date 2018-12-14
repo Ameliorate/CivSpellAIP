@@ -1,6 +1,6 @@
-package org.ame.civspell.gameplay;
+package pw.amel.civspell.gameplay;
 
-import org.ame.civspell.Main;
+import pw.amel.civspell.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;

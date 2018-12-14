@@ -1,7 +1,7 @@
-package org.ame.civspell.commands;
+package pw.amel.civspell.commands;
 
 
-import org.ame.civspell.Main;
+import pw.amel.civspell.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -13,8 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class GiveScrollCommand implements CommandExecutor {
     public GiveScrollCommand(Main mainPlugin) {

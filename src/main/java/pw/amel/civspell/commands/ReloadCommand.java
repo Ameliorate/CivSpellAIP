@@ -1,6 +1,6 @@
-package org.ame.civspell.commands;
+package pw.amel.civspell.commands;
 
-import org.ame.civspell.Main;
+import pw.amel.civspell.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

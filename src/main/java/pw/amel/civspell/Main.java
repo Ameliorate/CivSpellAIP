@@ -1,13 +1,13 @@
-package org.ame.civspell;
+package pw.amel.civspell;
 
-import org.ame.civspell.builtin.NopSpell;
-import org.ame.civspell.commands.GiveScrollCommand;
-import org.ame.civspell.commands.GiveSpellbookCommand;
-import org.ame.civspell.commands.GiveSpellpageCommand;
-import org.ame.civspell.commands.ReloadCommand;
-import org.ame.civspell.gameplay.Memorization;
-import org.ame.civspell.gameplay.Scroll;
-import org.ame.civspell.gameplay.SpellBook;
+import pw.amel.civspell.builtin.NopSpell;
+import pw.amel.civspell.commands.GiveScrollCommand;
+import pw.amel.civspell.commands.GiveSpellbookCommand;
+import pw.amel.civspell.commands.GiveSpellpageCommand;
+import pw.amel.civspell.commands.ReloadCommand;
+import pw.amel.civspell.gameplay.Memorization;
+import pw.amel.civspell.gameplay.Scroll;
+import pw.amel.civspell.gameplay.SpellBook;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;

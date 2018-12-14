@@ -1,4 +1,4 @@
-package org.ame.civspell;
+package pw.amel.civspell;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashSet;
 import java.util.UUID;
 
-import static org.ame.civspell.SpellCastMethod.SPELL_BOOK;
+import static pw.amel.civspell.SpellCastMethod.SPELL_BOOK;
 
 /**
  * Contains assorted methods involving casting spells.

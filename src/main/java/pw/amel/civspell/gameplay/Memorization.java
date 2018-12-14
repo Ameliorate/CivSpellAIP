@@ -1,13 +1,15 @@
-package org.ame.civspell.gameplay;
+package pw.amel.civspell.gameplay;
 
 import com.mysql.jdbc.Statement;
-import org.ame.civspell.*;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import pw.amel.civspell.CastHelper;
+import pw.amel.civspell.Main;
+import pw.amel.civspell.SpellCastMethod;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
