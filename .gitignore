@@ -1,6 +1,13 @@
-# gradle
-/build/
-/.gradle/
+# maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
 
 # idea
 /.idea/
@@ -14,6 +21,8 @@
 /.classpath
 /.project
 
-# custom
+# dumb kde stuff
+.directory
+
+# test server
 /testserver/
-/final/
