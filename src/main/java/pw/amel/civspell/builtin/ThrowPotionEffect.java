@@ -19,6 +19,8 @@ import java.util.Objects;
 public class ThrowPotionEffect implements Effect {
     public ThrowPotionEffect(ConfigurationSection config) {
         color = config.getColor("color");
+        velocityMultiplier = (float) config.getDouble("velocityMultiplier", 1.0);
+
         List<ConfigurationSection> effects = getConfigList(config, "effects");
         ArrayList<PotionEffect> vanillaEffects = new ArrayList<>();
 
@@ -35,6 +37,7 @@ public class ThrowPotionEffect implements Effect {
     }
 
     private Color color;
+    private float velocityMultiplier;
     private ArrayList<PotionEffect> effects;
 
     @Override
@@ -59,6 +62,7 @@ public class ThrowPotionEffect implements Effect {
         // Spawn/throw the potion
         ThrownPotion thrownPotion = castData.player.launchProjectile(ThrownPotion.class);
         thrownPotion.setItem(potionItem);
+        thrownPotion.setVelocity(thrownPotion.getVelocity().multiply(velocityMultiplier));
     }
 
     @SuppressWarnings("unchecked") // fix your warnings, java
