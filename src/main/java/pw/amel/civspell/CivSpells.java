@@ -1,6 +1,7 @@
 package pw.amel.civspell;
 
 import pw.amel.civspell.builtin.NopEffect;
+import pw.amel.civspell.builtin.RemoveTriggerItemEffect;
 import pw.amel.civspell.builtin.SoundEffect;
 import pw.amel.civspell.builtin.ThrowPotionEffect;
 import pw.amel.civspell.commands.GiveSpellItem;
@@ -20,6 +21,7 @@ public class CivSpells extends JavaPlugin {
         EffectManager.addEffect("nop", NopEffect.class);
         addEffect("throwpot", ThrowPotionEffect.class);
         addEffect("sound", SoundEffect.class);
+        addEffect("removetriggeritem", RemoveTriggerItemEffect.class);
 
         saveDefaultConfig();
         this.config = new SpellConfig(getConfig(), this);
@@ -40,35 +42,4 @@ public class CivSpells extends JavaPlugin {
         EffectManager.addEffect(name, effect);
     }
 
-    /**
-     * Removes the given itemstack from either the player's main hand or their offhand, preferring offhand first.
-     * @return If there were enough items of the right kind to remove. If this is false, no items have been removed from the player's inventory.
-     */
-    public static boolean removeFromEitherMainOrOffHand(ItemStack item, PlayerInventory player) {
-        ItemStack mainHandItem = player.getItemInMainHand();
-        ItemStack offHandItem = player.getItemInOffHand();
-        if (mainHandItem.getAmount() < item.getAmount() && offHandItem.getAmount() < item.getAmount()) {
-            return false;
-        } else if (mainHandItem.isSimilar(item)) {
-            if (mainHandItem.getAmount() == item.getAmount()) {
-                player.setItemInMainHand(new ItemStack(Material.AIR));
-                return true;
-            } else {
-                mainHandItem.setAmount(mainHandItem.getAmount() - item.getAmount());
-                player.setItemInMainHand(mainHandItem);
-                return true;
-            }
-        } else if (offHandItem.isSimilar(item)) {
-            if (offHandItem.getAmount() == item.getAmount()) {
-                player.setItemInOffHand(new ItemStack(Material.AIR));
-                return true;
-            } else {
-                offHandItem.setAmount(offHandItem.getAmount() - item.getAmount());
-                player.setItemInOffHand(offHandItem);
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
 }
