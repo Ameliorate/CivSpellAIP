@@ -45,3 +45,7 @@ spells:
           - type: REGENERATION
             level: 1
             durationSeconds: 5
+      sound:
+        sound: entity.splash_potion.throw
+        pitch: 0.5
+        volume: 0.5
