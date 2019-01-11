@@ -40,7 +40,7 @@ public class SpellCastListener implements Listener {
             return;
 
         CastHelper.castSpell(spellData.spellDefinition, event.getPlayer(), event.getClickedBlock(),
-                event.getAction(), event.getBlockFace(), mainPlugin);
+                event.getAction(), event.getBlockFace(), spellData.name, spellData.triggerItem, mainPlugin);
 
         event.setCancelled(true);
     }

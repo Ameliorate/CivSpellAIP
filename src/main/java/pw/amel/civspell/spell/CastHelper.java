@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import pw.amel.civspell.*;
 
 import java.util.HashSet;
@@ -21,13 +22,16 @@ public class CastHelper {
      * @return Weather or not the spell is on cooldown.
      */
     public static boolean castSpell(List<Effect> spellDefinition, Player caster,
-                                    Block blockClicked, Action castAction, BlockFace castBlockFace, CivSpells mainPlugin) {
+                                    Block blockClicked, Action castAction, BlockFace castBlockFace, String spellName,
+                                    ItemStack triggerItem, CivSpells mainPlugin) {
         CastData castData = new CastData();
 
         castData.player = caster;
         castData.blockClicked = blockClicked;
         castData.blockClickedFace = castBlockFace;
         castData.castAction = castAction;
+        castData.spellName = spellName;
+        castData.triggerItem = triggerItem;
         castData.main = mainPlugin;
 
         return castSpell(spellDefinition, castData, false, mainPlugin);

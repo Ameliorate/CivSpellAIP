@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import pw.amel.civspell.CivSpells;
 
 import java.util.HashSet;
@@ -34,6 +35,16 @@ public class CastData {
     public Action castAction;
 
     public CivSpells main;
+
+    /**
+     * The name of the spell that is being cast.
+     */
+    public String spellName;
+
+    /**
+     * The item that was in the hand of the caster player when this spell was casted.
+     */
+    public ItemStack triggerItem;
 
     public boolean isRightClick() {
         return castAction == Action.RIGHT_CLICK_AIR || castAction == Action.RIGHT_CLICK_BLOCK;
