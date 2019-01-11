@@ -12,7 +12,7 @@ spells:
         meta-type: UNSPECIFIC
         display-name: §aNo Op Scroll
     effects:
-      nop: null
+      nop: {}
   # The above example is the simplest possible spell.
   # It is a spell named NoOp that invokes the "nop" effect with no arguments.
   FancyNoOp:

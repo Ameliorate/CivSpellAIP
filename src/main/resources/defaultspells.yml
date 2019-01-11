@@ -8,4 +8,4 @@ spells:
         meta-type: UNSPECIFIC
         display-name: §aPlaceholder Spell
     effects:
-      nop: null
+      nop: {}
