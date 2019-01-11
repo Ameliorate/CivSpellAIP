@@ -26,3 +26,22 @@ spells:
     effects:
       nop:
         isFancy: true
+  Health:
+    # Throw a splash potion of instant health 2 + regen 1 5 seconds.
+    triggerItem:
+      ==: org.bukkit.inventory.ItemStack
+      type: EMERALD
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aHealth
+    leftClickCast: false
+    rightClickCast: true
+    effects:
+      throwpot:
+        effects:
+          - type: HEAL
+            level: 2
+          - type: REGENERATION
+            level: 1
+            durationSeconds: 5

@@ -1,6 +1,7 @@
 package pw.amel.civspell;
 
 import pw.amel.civspell.builtin.NopEffect;
+import pw.amel.civspell.builtin.ThrowPotionEffect;
 import pw.amel.civspell.commands.GiveSpellItem;
 import pw.amel.civspell.commands.ReloadCommand;
 import pw.amel.civspell.gameplay.SpellCastListener;
@@ -16,6 +17,7 @@ public class CivSpells extends JavaPlugin {
     @Override
     public void onEnable() {
         EffectManager.addEffect("nop", NopEffect.class);
+        addEffect("throwpot", ThrowPotionEffect.class);
 
         saveDefaultConfig();
         this.config = new SpellConfig(getConfig(), this);
