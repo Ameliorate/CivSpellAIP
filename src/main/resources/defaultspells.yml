@@ -1,0 +1,11 @@
+spells:
+  PLACEHOLDER:
+    triggerItem:
+      ==: org.bukkit.inventory.ItemStack
+      type: BEDROCK
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aPlaceholder Spell
+    effects:
+      nop: null

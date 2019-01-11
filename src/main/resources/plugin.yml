@@ -4,28 +4,18 @@ description: Adds an api to add spells to civcraft-type servers
 authors: [Amelorate]
 website: https://github.com/Ameliorate/CivSpellAPI
 
-main: pw.amel.Main
+main: pw.amel.civspell.CivSpells
 
 commands:
-  csgivescroll:
-    description: Give a player a number of magic scrolls.
-    usage: /csgivescroll [player] [number] [spell (Can contain spaces)]
-    permision: civ-spell-api.give.scroll
-    aliases: csgs
-  csgivespellpage:
-    description: Give a player a number of spell pages.
-    usage: /csgivespellpage [player] [number] [spell (Can contain spaces)]
-    permision: civ-spell-api.give.page
-    aliases: csgsp
-  csgivespellbook:
-    description: Give a player a spellbook.
-    permision: civ-spell-api.give.book
-    aliases: csgsb
+  csgiveitem:
+    description: Give a player a number of the item used to triger a given spell.
+    usage: /csgiveitem [player] [number] [spell (Can contain spaces)]
+    permision: civ-spell-api.give
+    aliases: csgive
   csreload:
     description: Reloads the config of CivSpellAPI from disk.
     usage: /csreload
     permision: civ-spell-api.reload
-    aliases: csr
 
 permisions:
   civ-spell-api.*:
@@ -34,15 +24,5 @@ permisions:
       civ-spell-api.reload: true
     civ-spell-api.reload:
       description: Reload the config from disk.
-    civ-spell-api.give.*:
-      description: Allows the person to use any of the commands to give scrolls and other spell related items.
-      children:
-        civ-spell-api.give.scroll: true
-        civ-spell-api.give.page: true
-        civ-spell-api.give.book: true
-    civ-spell-api.give.scroll:
-      description: Allows the player to use the /csgivescroll command to obtain any scroll for free.
-    civ-spell-api.give.page:
-      description: Allows the player to use /csgivespellpage to obtain and spellpage for free.
-    civ-spell-api.give.book:
-      description: Allows the player to use /csgivespellbook to obtain a spellbook for free.
+    civ-spell-api.give:
+      description: Usage of the /csgiveitem

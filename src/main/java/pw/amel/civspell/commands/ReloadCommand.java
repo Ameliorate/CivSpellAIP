@@ -1,6 +1,6 @@
 package pw.amel.civspell.commands;
 
-import pw.amel.civspell.Main;
+import pw.amel.civspell.CivSpells;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,11 +10,11 @@ import org.bukkit.command.CommandSender;
  * Reloads the config from disk.
  */
 public class ReloadCommand implements CommandExecutor {
-    public ReloadCommand(Main mainPlugin) {
+    public ReloadCommand(CivSpells mainPlugin) {
         this.mainPlugin = mainPlugin;
     }
 
-    private Main mainPlugin;
+    private CivSpells mainPlugin;
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

@@ -1,26 +1,28 @@
-spellNameFormat: "&5&ka&r&bMagic Scroll&5&ka&r {NAME}"
-memorizationEnabled: true
-spellbookEnabled: true
-spellbookName: "&bSpellbook"
-spellbookMaterial: ENCHANTED_BOOK # See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for all possible
-                                  # items for spellbooks.
-spellpageNameFormat: "&5&ka&r&bSpell Page&5&ka&r {NAME}"
-manaPerHalfHeart: 1
-
-Mysql:
-  username: user
-  password: pass
-  database: civspellapi
-  hostname: localhost
-  port: 3306
+antiOopsCoolDownTicks: 5
+# This cooldown prevents accidentally casting multiple valuable scrolls when only one use was intended.
+# It is not for game balance. See [TODO: Add a meta-spell for cooldowns]
 
 spells:
-  Do Nothing:
-    spell: nop # Defaults to "nop" if not present.
-    manaCost: 1 # Defaults to 0
-    scrollCastable: true
-    spellbookCastable: true
-    memoryCastable: true # The above three default to false
-    icon: PAPER # Defaults to PAPER.
-    # config: # nop does not take a config, however other spells do.
-
+  NoOp:
+    triggerItem:
+      ==: org.bukkit.inventory.ItemStack
+      type: SUGAR_CANE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aNo Op Scroll
+    effects:
+      nop: null
+  # The above example is the simplest possible spell.
+  # It is a spell named NoOp that invokes the "nop" effect with no arguments.
+  FancyNoOp:
+    triggerItem:
+      ==: org.bukkit.inventory.ItemStack
+      type: SUGAR_CANE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aFancy No Op Scroll
+    effects:
+      nop:
+        isFancy: true

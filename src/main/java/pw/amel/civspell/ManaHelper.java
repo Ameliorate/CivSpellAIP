@@ -2,8 +2,6 @@ package pw.amel.civspell;
 
 import org.bukkit.entity.Player;
 
-import static sun.audio.AudioPlayer.player;
-
 /**
  * Several methods assisting in using the mana/exp bar.
  */

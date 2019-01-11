@@ -1,151 +1,97 @@
 package pw.amel.civspell;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import pw.amel.civspell.spell.Effect;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Parses the config to a convent getter interface.
  */
 public class SpellConfig {
-    public SpellConfig(Configuration config) {
+    public SpellConfig(Configuration config, CivSpells main) {
+        this.main = main;
         reloadConfig(config);
     }
 
+    private CivSpells main;
+
     public void reloadConfig(Configuration config) {
-        this.spellNameFormat = ChatColor.translateAlternateColorCodes('&',
-                config.getString("spellNameFormat", "&5&ka&r&bMagic Scroll&5&ka&r {NAME}"));
-        this.memorizationEnabled = config.getBoolean("memorizationEnabled", true);
-        this.spellbookEnabled = config.getBoolean("spellbookEnabled", true);
-        this.spellbookName = ChatColor.translateAlternateColorCodes('&',
-                config.getString("spellbookName", "&bSpellbook"));
-        this.spellbookMaterial = Material.valueOf(config.getString("spellbookMaterial", "ENCHANTED_BOOK"));
-        this.spellpageNameFormat = ChatColor.translateAlternateColorCodes('&',
-                config.getString("spellpageNameFormat", "&5&ka&r&bSpell Page&5&ka&r {NAME}"));
-        this.manaPerHalfHeart = config.getDouble("manaPerHalfHeart", 1);
-
-        this.mySQLUsername = config.getString("Mysql.username", "user");
-        this.mySQLPassword = config.getString("Mysql.password", "pass");
-        this.mySQLDatabase = config.getString("Mysql.database", "civspellapi");
-        this.mySQLHostname = config.getString("Mysql.hostname", "localhost");
-        this.mySQLPort = config.getInt("Mysql.port", 3306);
-
         spells = new HashMap<>();
+        itemsToSpells = new HashMap<>();
+        itemsToDefinitions = new HashMap<>();
 
-        Spell nopSpell = new Spell();
-        nopSpell.playerVisibleName = "__nop";
-        nopSpell.rawSpellToCast = "nop";
-        nopSpell.manaCost = 2;
-        nopSpell.isScrollCastable = true;
-        nopSpell.isSpellbookCastable = true;
-        nopSpell.isMemoryCastable = true;
-        nopSpell.guiIcon = Material.PAPER;
-        nopSpell.config = null;
-        spells.put("__nop", nopSpell);
+        doGlobals(config);
 
-        ConfigurationSection spellsSection = config.getConfigurationSection("spells");
-        if (spellsSection != null) {
-            for (String playerSpellName : spellsSection.getKeys(false)) {
-                ConfigurationSection individualSpellSection = spellsSection.getConfigurationSection(playerSpellName);
-                Spell spell = new Spell();
+        InputStream defaultSpells = main.getResource("defaultspells.yml");
+        ConfigurationSection defaultSpellsConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultSpells))
+                .getConfigurationSection("spells");
+        parseSpells(defaultSpellsConfig);
+        parseSpells(config.getConfigurationSection("spells"));
 
-                if (individualSpellSection == null) {
-                    continue;
-                }
+        syncSpells();
+    }
 
-                spell.playerVisibleName = playerSpellName;
-                spell.rawSpellToCast = individualSpellSection.getString("spell", "nop");
-                spell.manaCost = individualSpellSection.getDouble("manaCost", 0);
-                spell.isScrollCastable = individualSpellSection.getBoolean("scrollCastable", false);
-                spell.isSpellbookCastable = individualSpellSection.getBoolean("spellbookCastable", false);
-                spell.isMemoryCastable = individualSpellSection.getBoolean("memoryCastable", false);
-                spell.guiIcon = Material.valueOf(individualSpellSection.getString("icon", "PAPER"));
-                spell.config = individualSpellSection.getConfigurationSection("config");
+    public int coolDownTicks;
 
-                spells.put(playerSpellName, spell);
+    private void doGlobals(Configuration config) {
+        coolDownTicks = config.getInt("antiOopsCoolDownTicks", 5);
+    }
+
+    public HashMap<String, SpellData> spells;
+    public HashMap<ItemStack, SpellData> itemsToSpells;
+    public HashMap<ItemStack, ArrayList<Effect>> itemsToDefinitions;
+
+    public static class SpellData {
+        public String name;
+        public ArrayList<Effect> spellDefinition;
+        public ItemStack triggerItem;
+
+        /**
+         * If you can cast this spell by right clicking with the trigger item.
+         */
+        public boolean rightClickCast;
+
+        /**
+         * If you can cast this spell by left clicking with the trigger item.
+         */
+        public boolean leftClickCast;
+    }
+
+    private void parseSpells(ConfigurationSection spells) {
+        for (String spellKey : spells.getKeys(false)) {
+            ConfigurationSection spellConfig = spells.getConfigurationSection(spellKey);
+
+            SpellData spellData = new SpellData();
+            spellData.name = spellKey;
+            spellData.triggerItem = spellConfig.getItemStack("triggerItem");
+            spellData.leftClickCast = spellConfig.getBoolean("leftClickCast", true);
+            spellData.rightClickCast = spellConfig.getBoolean("rightClickCast", true);
+            spellData.spellDefinition = new ArrayList<>();
+
+            ConfigurationSection spellDefinitionConfig = spellConfig.getConfigurationSection("effects");
+
+            for (String type : spellDefinitionConfig.getKeys(false)) {
+                Effect implementation = EffectManager.constructEffect(type,
+                        spellDefinitionConfig.getConfigurationSection(type));
+                spellData.spellDefinition.add(implementation);
             }
+
+            this.spells.put(spellKey, spellData);
         }
     }
 
-    private String spellNameFormat;
-    private boolean memorizationEnabled;
-    private boolean spellbookEnabled;
-    private String spellbookName;
-    private Material spellbookMaterial;
-    private String spellpageNameFormat;
-    private double manaPerHalfHeart;
-
-    private String mySQLUsername;
-    private String mySQLPassword;
-    private String mySQLDatabase;
-    private String mySQLHostname;
-    private int mySQLPort;
-
-    private HashMap<String, Spell> spells;
-
-    public String getSpellNameFormat() {
-        return spellNameFormat;
-    }
-
-    public boolean isMemorizationEnabled() {
-        return memorizationEnabled;
-    }
-
-    public boolean isSpellbookEnabled() {
-        return spellbookEnabled;
-    }
-
-    public String getSpellbookName() {
-        return spellbookName;
-    }
-
-    public String getSpellpageNameFormat() {
-        return spellpageNameFormat;
-    }
-
-    public double getManaPerHalfHeart() {
-        return manaPerHalfHeart;
-    }
-
-    public String getMySQLUsername() {
-        return mySQLUsername;
-    }
-
-    public String getMySQLPassword() {
-        return mySQLPassword;
-    }
-
-    public String getMySQLDatabase() {
-        return mySQLDatabase;
-    }
-
-    public String getMySQLHostname() {
-        return mySQLHostname;
-    }
-
-    public int getMySQLPort() {
-        return mySQLPort;
-    }
-
-    public Spell getSpell(String playerVisibleSpellName) {
-        return spells.get(playerVisibleSpellName);
-    }
-
-    public Material getSpellbookMaterial() {
-        return spellbookMaterial;
-    }
-
-    public class Spell {
-        public String playerVisibleName;
-        public String rawSpellToCast;
-        public double manaCost;
-        public boolean isScrollCastable;
-        public boolean isSpellbookCastable;
-        public boolean isMemoryCastable;
-        public Material guiIcon;
-        public ConfigurationSection config;
+    private void syncSpells() {
+        for (Map.Entry<String, SpellData> spell : spells.entrySet()) {
+            itemsToSpells.put(spell.getValue().triggerItem, spell.getValue());
+            itemsToDefinitions.put(spell.getValue().triggerItem, spell.getValue().spellDefinition);
+        }
     }
 }

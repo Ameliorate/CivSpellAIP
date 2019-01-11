@@ -1,48 +1,39 @@
 package pw.amel.civspell;
 
-import pw.amel.civspell.builtin.NopSpell;
-import pw.amel.civspell.commands.GiveScrollCommand;
-import pw.amel.civspell.commands.GiveSpellbookCommand;
-import pw.amel.civspell.commands.GiveSpellpageCommand;
+import pw.amel.civspell.builtin.NopEffect;
+import pw.amel.civspell.commands.GiveSpellItem;
 import pw.amel.civspell.commands.ReloadCommand;
-import pw.amel.civspell.gameplay.Memorization;
-import pw.amel.civspell.gameplay.Scroll;
-import pw.amel.civspell.gameplay.SpellBook;
+import pw.amel.civspell.gameplay.SpellCastListener;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class Main extends JavaPlugin {
-    public Database database;
+public class CivSpells extends JavaPlugin {
     public SpellConfig config;
 
     @Override
     public void onEnable() {
+        EffectManager.addEffect("nop", NopEffect.class);
+
         saveDefaultConfig();
-        this.config = new SpellConfig(getConfig());
+        this.config = new SpellConfig(getConfig(), this);
 
-        database = new Database(config.getMySQLUsername(), config.getMySQLPassword(),
-                config.getMySQLDatabase(), config.getMySQLHostname(), config.getMySQLPort(),
-                this);
-        database.connect();
-
-        SpellManager.addSpell("nop", new NopSpell());
-
-        getCommand("csgivescroll").setExecutor(new GiveScrollCommand(this));
-        getCommand("csgivespellpage").setExecutor(new GiveSpellpageCommand(this));
-        getCommand("csgivespellbook").setExecutor(new GiveSpellbookCommand(this));
+        getCommand("csgiveitem").setExecutor(new GiveSpellItem(this));
         getCommand("csreload").setExecutor(new ReloadCommand(this));
 
-        getServer().getPluginManager().registerEvents(new Scroll(this, config.getSpellNameFormat()), this);
-        getServer().getPluginManager().registerEvents(new SpellBook(this), this);
-        getServer().getPluginManager().registerEvents(new Memorization(this), this);
+        getServer().getPluginManager().registerEvents(new SpellCastListener(this), this);
     }
 
-    @Override
-    public void onDisable() {
-        database.close();
+    /**
+     * Adds an effect with the given name.
+     * @param name The name of the effect that the user will refer to in their configuration.
+     * @param effect The effect. It must implement Effect and have a public constructor that takes a
+     *               ConfigurationSection as its only argument.
+     */
+    public void addEffect(String name, Class<?> effect) {
+        EffectManager.addEffect(name, effect);
     }
 
     /**

@@ -4,7 +4,7 @@
 
   <groupId>pw.amel</groupId>
   <artifactId>CivSpellAPI</artifactId>
-  <version>2.4.0</version>
+  <version>3.0.0</version>
   <packaging>jar</packaging>
 
   <name>CivSpellAPI</name>
@@ -18,9 +18,9 @@
   
   <resources>
 	<resource>
-		<directory>src/main/resources</directory>
+		<directory>${basedir}/src/main/resources</directory>
 		<includes>
-			<include>*.yml</include>
+			<include>*</include>
 		</includes>
 		<filtering>true</filtering>
 	</resource>
