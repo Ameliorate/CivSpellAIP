@@ -23,6 +23,9 @@ public class CivSpells extends JavaPlugin {
         addEffect("sound", SoundEffect.class);
         addEffect("removetriggeritem", RemoveTriggerItemEffect.class);
 
+        // Spell type effects: Effects that add new kinds of spells, like scrolls and spell stones.
+        addEffect("scroll", RemoveTriggerItemEffect.class);
+
         saveDefaultConfig();
         this.config = new SpellConfig(getConfig(), this);
 
