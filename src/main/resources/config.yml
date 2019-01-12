@@ -24,7 +24,7 @@ spells:
         meta-type: UNSPECIFIC
         display-name: §aFancy No Op Scroll
     effects:
-      removetriggeritem: {}
+      scroll: {}
       nop:
         isFancy: true
   Health:
