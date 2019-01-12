@@ -17,9 +17,11 @@ public class NopEffect implements Effect {
     @Override
     public void cast(CastData d) {
         if (isFancy) {
-            d.player.sendMessage("§3The spell wooshes away, doing nothing.");
-            d.player.getEyeLocation().getWorld().playEffect(d.player.getLocation(), org.bukkit.Effect.EXPLOSION_HUGE, null, 10);
-            d.player.getEyeLocation().getWorld().playEffect(d.player.getLocation(), org.bukkit.Effect.GHAST_SHOOT, null, 10);
+            d.doLaterIfNotReturned(() -> {
+                d.player.sendMessage("§3The spell wooshes away, doing nothing.");
+                d.player.getEyeLocation().getWorld().playEffect(d.player.getLocation(), org.bukkit.Effect.EXPLOSION_HUGE, null, 10);
+                d.player.getEyeLocation().getWorld().playEffect(d.player.getLocation(), org.bukkit.Effect.GHAST_SHOOT, null, 10);
+            });
         }
     }
 }

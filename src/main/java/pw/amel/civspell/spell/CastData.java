@@ -94,4 +94,23 @@ public class CastData {
         alreadyReturned = true;
         return false;
     }
+
+    /**
+     * Runs the given task 1 tick later, but only if the spell has not been returned on that tick.
+     *
+     * The given task should not return the spell. It is recomended that the task should only contain
+     * one line of code that does the final thing your effect is supposed to do.
+     * For example, the sound effect would call player.playSound() here.
+     *
+     * This function is meant for functionality that can not be easily undone but has few game-balance effects
+     * if it is accidentally done, for example playing a sound, sending a chat message, or spawning a harmless explosion
+     * effect.
+     * @param doLater The task that is ran 1 tick later.
+     */
+    public void doLaterIfNotReturned(Runnable doLater) {
+        main.getServer().getScheduler().runTask(main, () -> {
+            if (!isAlreadyReturned())
+                doLater.run();
+        });
+    }
 }
