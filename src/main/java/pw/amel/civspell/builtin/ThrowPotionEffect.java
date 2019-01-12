@@ -63,6 +63,8 @@ public class ThrowPotionEffect implements Effect {
         ThrownPotion thrownPotion = castData.player.launchProjectile(ThrownPotion.class);
         thrownPotion.setItem(potionItem);
         thrownPotion.setVelocity(thrownPotion.getVelocity().multiply(velocityMultiplier));
+
+        castData.addReturnHook(() -> thrownPotion.remove());
     }
 
     @SuppressWarnings("unchecked") // fix your warnings, java
