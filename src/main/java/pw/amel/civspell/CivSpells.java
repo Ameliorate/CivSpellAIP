@@ -11,11 +11,17 @@ public class CivSpells extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Meta effects: Effects that change how the spell executes
+
         addEffect("nop", NopEffect.class);
+        addEffect("fail", FailEffect.class);
+
+        // Basic effect effects: Effects that cause a simple change in the game, like playing a sound or
+        //     giving the caster a potion effect.
+
         addEffect("throwpot", ThrowPotionEffect.class);
         addEffect("sound", SoundEffect.class);
         addEffect("removetriggeritem", RemoveTriggerItemEffect.class);
-        addEffect("fail", FailEffect.class);
 
         saveDefaultConfig();
         this.config = new SpellConfig(getConfig(), this);
