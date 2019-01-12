@@ -2,11 +2,13 @@ package pw.amel.civspell.spell;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import pw.amel.civspell.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -54,5 +56,17 @@ public class CastHelper {
         }
 
         return true;
+    }
+
+    public static List<Effect> parseSpellDefinition(ConfigurationSection definition) {
+        ArrayList<Effect> spellDefinition = new ArrayList<>();
+
+        for (String type : definition.getKeys(false)) {
+            Effect implementation = EffectManager.constructEffect(type,
+                    definition.getConfigurationSection(type));
+            spellDefinition.add(implementation);
+        }
+
+        return spellDefinition;
     }
 }

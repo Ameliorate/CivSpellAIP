@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-class EffectManager {
+public class EffectManager {
     private static HashMap<String, Class<?>> effectMap = new HashMap<>();
 
     /**
