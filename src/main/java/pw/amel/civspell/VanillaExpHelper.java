@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 /**
  * Several methods assisting in using the mana/exp bar.
  */
-public class ManaHelper {
+public class VanillaExpHelper {
     /**
      * Calculates the number of exp points in a given level using numbers from the minecraft wiki.
      */
