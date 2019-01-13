@@ -4,6 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
+import org.bukkit.entity.LingeringPotion;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -20,6 +21,7 @@ public class ThrowPotionEffect implements Effect {
     public ThrowPotionEffect(ConfigurationSection config) {
         color = config.getColor("color");
         velocityMultiplier = (float) config.getDouble("velocityMultiplier", 1.0);
+        isLingering = config.getBoolean("isLingering", false);
 
         List<ConfigurationSection> effects = getConfigList(config, "effects");
         ArrayList<PotionEffect> vanillaEffects = new ArrayList<>();
@@ -38,13 +40,14 @@ public class ThrowPotionEffect implements Effect {
 
     private Color color;
     private float velocityMultiplier;
+    private boolean isLingering;
     private ArrayList<PotionEffect> effects;
 
     @Override
     @SuppressWarnings("unchecked") // fix your warnings, java
     public void cast(CastData castData) {
         // Construct the potion with the effects to be thrown
-        ItemStack potionItem = new ItemStack(Material.SPLASH_POTION);
+        ItemStack potionItem = new ItemStack(isLingering ? Material.LINGERING_POTION : Material.SPLASH_POTION);
         PotionMeta potionMeta = (PotionMeta) potionItem.getItemMeta();
 
         potionMeta.setBasePotionData(new PotionData(PotionType.MUNDANE));
@@ -60,7 +63,7 @@ public class ThrowPotionEffect implements Effect {
         potionItem.setItemMeta(potionMeta);
 
         // Spawn/throw the potion
-        ThrownPotion thrownPotion = castData.player.launchProjectile(ThrownPotion.class);
+        ThrownPotion thrownPotion = castData.player.launchProjectile(isLingering ? LingeringPotion.class : ThrownPotion.class);
         thrownPotion.setItem(potionItem);
         thrownPotion.setVelocity(thrownPotion.getVelocity().multiply(velocityMultiplier));
 
