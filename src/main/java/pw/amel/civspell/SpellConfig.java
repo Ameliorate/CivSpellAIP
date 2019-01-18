@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Parses the config to a convent getter interface.
@@ -42,8 +43,21 @@ public class SpellConfig {
 
     public int coolDownTicks;
 
+    public boolean useVanillaExpMana;
+
     private void doGlobals(Configuration config) {
         coolDownTicks = config.getInt("antiOopsCoolDownTicks", 5);
+        String manaMode = config.getString("mana.manaMode", "vanilla");
+
+        if (manaMode.equals("vanilla")) {
+            useVanillaExpMana = true;
+        } else if (manaMode.equals("linear")) {
+            useVanillaExpMana = false;
+        } else {
+            main.getLogger().log(Level.WARNING, "mana.manaMode is non existant " + manaMode + ". Defaulting to" +
+                    " vanilla.");
+            useVanillaExpMana = true;
+        }
     }
 
     public HashMap<String, SpellData> spells;

@@ -25,6 +25,8 @@ public class CivSpells extends JavaPlugin {
         addEffect("removetriggeritem", RemoveTriggerItemEffect.class);
 
         // Spell type effects: Effects that add new kinds of spells, like scrolls and spell stones.
+
+        addEffect("manaspell", ManaSpellEffect.class);
         addEffect("scroll", RemoveTriggerItemEffect.class);
 
         saveDefaultConfig();

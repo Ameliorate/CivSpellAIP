@@ -2,6 +2,9 @@ antiOopsCoolDownTicks: 5
 # This cooldown prevents accidentally casting multiple valuable scrolls when only one use was intended.
 # It is not for game balance. See [TODO: Add a meta-spell for cooldowns]
 
+mana:
+  manaMode: vanilla
+
 spells:
   NoOp:
     triggerItem:
@@ -39,6 +42,8 @@ spells:
     leftClickCast: false
     rightClickCast: true
     effects:
+      manaspell:
+        manaCost: 5
       throwpot:
         effects:
           - type: HEAL
