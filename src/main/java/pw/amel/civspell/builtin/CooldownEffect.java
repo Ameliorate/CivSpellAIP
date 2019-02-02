@@ -89,9 +89,11 @@ public class CooldownEffect implements Effect {
                 }
             };
             runnable.runTaskTimer(castData.main, 0, 5);
+            castData.addReturnHook(runnable::cancel);
         }
 
         onCooldown.add(playerUUID);
+        castData.addReturnHook(() -> onCooldown.remove(playerUUID));
         castData.main.getServer().getScheduler().runTaskLater(castData.main, () -> onCooldown.remove(playerUUID), cooldownTicks);
     }
 }
