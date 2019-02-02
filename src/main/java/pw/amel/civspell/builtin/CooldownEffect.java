@@ -23,10 +23,16 @@ public class CooldownEffect implements Effect {
         this.cooldownTicks = (int) (cooldownTicks + (cooldownMinutes * 60 * 20) + (cooldownSeconds * 20));
 
         isFancy = config.getBoolean("fancy", true);
+        boolean chatNotificationSet = config.isSet("chatNotification");
+        if (chatNotificationSet)
+            chatNotification = config.getBoolean("chatNotification");
+        else
+            chatNotification = this.cooldownTicks > 30;
     }
 
     private int cooldownTicks;
     private boolean isFancy;
+    private boolean chatNotification;
 
     private Set<UUID> onCooldown = new HashSet<>();
 
@@ -94,6 +100,10 @@ public class CooldownEffect implements Effect {
 
         onCooldown.add(playerUUID);
         castData.addReturnHook(() -> onCooldown.remove(playerUUID));
-        castData.main.getServer().getScheduler().runTaskLater(castData.main, () -> onCooldown.remove(playerUUID), cooldownTicks);
+        castData.main.getServer().getScheduler().runTaskLater(castData.main, () -> {
+            onCooldown.remove(playerUUID);
+            if (!castData.isAlreadyReturned() && chatNotification)
+                castData.getNewPlayer().sendMessage(org.bukkit.ChatColor.BLUE + castData.spellName + org.bukkit.ChatColor.AQUA + " is off cooldown.");
+        }, cooldownTicks);
     }
 }
