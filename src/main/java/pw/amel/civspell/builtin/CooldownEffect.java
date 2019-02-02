@@ -102,7 +102,7 @@ public class CooldownEffect implements Effect {
         castData.addReturnHook(() -> onCooldown.remove(playerUUID));
         castData.main.getServer().getScheduler().runTaskLater(castData.main, () -> {
             onCooldown.remove(playerUUID);
-            if (!castData.isAlreadyReturned() && chatNotification)
+            if (!castData.isAlreadyReturned() && chatNotification && castData.getNewPlayer() != null)
                 castData.getNewPlayer().sendMessage(org.bukkit.ChatColor.BLUE + castData.spellName + org.bukkit.ChatColor.RESET + " is off cooldown");
         }, cooldownTicks);
     }
