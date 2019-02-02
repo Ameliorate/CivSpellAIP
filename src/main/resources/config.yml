@@ -18,7 +18,7 @@ spells:
       nop: {}
   # The above example is the simplest possible spell.
   # It is a spell named NoOp that invokes the "nop" effect with no arguments.
-  FancyNoOp:
+  Fancy NoOp:
     triggerItem:
       ==: org.bukkit.inventory.ItemStack
       type: SUGAR_CANE
@@ -55,7 +55,7 @@ spells:
         sound: entity.splash_potion.throw
         pitch: 0.5
         volume: 0.5
-  FreeHealth:
+  Free Health:
     # A free health splash potion, but only every 3 minutes, 24 seconds, and 12 ticks.
     triggerItem:
       ==: org.bukkit.inventory.ItemStack
