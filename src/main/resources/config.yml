@@ -55,3 +55,26 @@ spells:
         sound: entity.splash_potion.throw
         pitch: 0.5
         volume: 0.5
+  FreeHealth:
+    # A free health splash potion, but only every 3 minutes, 24 seconds, and 12 ticks.
+    triggerItem:
+      ==: org.bukkit.inventory.ItemStack
+      type: EMERALD
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aFree Health
+    leftClickCast: false
+    effects:
+      cooldown:
+        cooldownMinutes: 3
+        cooldownSeconds: 24
+        cooldownTicks: 12
+      throwpot:
+        effects:
+        - type: HEAL
+          level: 2
+      sound:
+        sound: entity.splash_potion.throw
+        pitch: 0.5
+        volume: 0.5

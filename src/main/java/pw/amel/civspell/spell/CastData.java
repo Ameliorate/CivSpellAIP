@@ -113,4 +113,14 @@ public class CastData {
                 doLater.run();
         });
     }
+
+    /**
+     * Gets the player, even if they have logged out and logged back in since casting the spell.
+     *
+     * If the player is offline, this will return null where CastData.player would return an empty player instance.
+     * @return The player that casted this spell, or null if the player is offline.
+     */
+    public Player getNewPlayer() {
+        return  main.getServer().getPlayer(player.getUniqueId());
+    }
 }

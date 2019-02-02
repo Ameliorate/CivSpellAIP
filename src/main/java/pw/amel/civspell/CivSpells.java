@@ -16,6 +16,7 @@ public class CivSpells extends JavaPlugin {
         addEffect("nop", NopEffect.class);
         addEffect("fail", FailEffect.class);
         addEffect("metaspell", MetaSepllEffect.class);
+        addEffect("cooldown", CooldownEffect.class);
 
         // Basic effect effects: Effects that cause a simple change in the game, like playing a sound or
         //     giving the caster a potion effect.
