@@ -41,7 +41,7 @@ public class GiveSpellItem implements CommandExecutor {
         argsList.remove(0); // Lazy way to remove first 2 elements.
         argsList.remove(0);
 
-        String spellName = argsList.stream().reduce((a, b) -> a + b).orElse("");
+        String spellName = argsList.stream().reduce((a, b) -> a + " " + b).orElse("");
 
         SpellConfig.SpellData spellData = main.config.spells.get(spellName);
         if (spellData == null) {
