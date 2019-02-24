@@ -4,6 +4,8 @@ description: Adds an api to add spells to civcraft-type servers
 authors: [Amelorate]
 website: https://github.com/Ameliorate/CivSpellAPI
 
+depend: [CivModCore]
+
 main: pw.amel.civspell.CivSpells
 
 commands:

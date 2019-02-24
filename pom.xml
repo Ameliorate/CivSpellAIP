@@ -68,6 +68,10 @@
       <id>apache-repo</id>
       <url>http://repo.spring.io/plugins-release/</url>
     </repository>
+    <repository>
+        <id>Jenkins-repo</id>
+        <url>https://build.devotedmc.com/plugin/repository/everything/</url>
+    </repository>
 </repositories>
 
 <dependencies>
@@ -86,6 +90,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>com.springsource.org.apache.commons.codec</artifactId>
         <version>1.6.0</version>
+    </dependency>
+    <dependency>
+        <groupId>vg.civcraft.mc.civmodcore</groupId>
+        <artifactId>CivModCore</artifactId>
+        <version>1.6.1</version>
+        <scope>provided</scope>
     </dependency>
 </dependencies>
 </project>

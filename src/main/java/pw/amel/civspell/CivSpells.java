@@ -4,9 +4,9 @@ import pw.amel.civspell.builtin.*;
 import pw.amel.civspell.commands.GiveSpellItem;
 import pw.amel.civspell.commands.ReloadCommand;
 import pw.amel.civspell.gameplay.SpellCastListener;
-import org.bukkit.plugin.java.JavaPlugin;
+import vg.civcraft.mc.civmodcore.ACivMod;
 
-public class CivSpells extends JavaPlugin {
+public class CivSpells extends ACivMod {
     public SpellConfig config;
 
     @Override
@@ -37,6 +37,11 @@ public class CivSpells extends JavaPlugin {
         getCommand("csreload").setExecutor(new ReloadCommand(this));
 
         getServer().getPluginManager().registerEvents(new SpellCastListener(this), this);
+    }
+
+    @Override
+    protected String getPluginName() {
+        return "CivSpellAPI";
     }
 
     /**
