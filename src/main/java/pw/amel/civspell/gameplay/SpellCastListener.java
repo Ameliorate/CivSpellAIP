@@ -25,12 +25,12 @@ public class SpellCastListener implements Listener {
         // Stepping on redstone
         if (event.getAction() == Action.PHYSICAL)
             return;
-        if (mainPlugin.config.itemsToDefinitions.keySet().stream()
-                .noneMatch(template -> event.getItem().isSimilar(template)))
+        if (mainPlugin.config.spells.values().stream()
+                .noneMatch(template -> template.itemExpression.matches(event.getItem())))
             return;
 
         SpellConfig.SpellData spellData = mainPlugin.config.spells.values().stream()
-                .filter(template -> event.getItem().isSimilar(template.triggerItem))
+                .filter(template -> template.itemExpression.matches(event.getItem()))
                 .collect(Collectors.toList())
                 .get(0);
 
@@ -40,7 +40,7 @@ public class SpellCastListener implements Listener {
             return;
 
         CastHelper.castSpell(spellData.spellDefinition, event.getPlayer(), event.getClickedBlock(),
-                event.getAction(), event.getBlockFace(), spellData.name, spellData.triggerItem, mainPlugin);
+                event.getAction(), event.getBlockFace(), spellData.name, event.getItem(), mainPlugin);
 
         event.setCancelled(true);
     }

@@ -1,6 +1,6 @@
 antiOopsCoolDownTicks: 5
 # This cooldown prevents accidentally casting multiple valuable scrolls when only one use was intended.
-# It is not for game balance. See [TODO: Add a meta-spell for cooldowns]
+# It is not for game balance. See the cooldown effect for game balance cooldowns.
 
 mana:
   manaMode: vanilla

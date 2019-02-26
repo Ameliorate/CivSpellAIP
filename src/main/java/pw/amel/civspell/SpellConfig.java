@@ -6,12 +6,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import pw.amel.civspell.spell.CastHelper;
 import pw.amel.civspell.spell.Effect;
+import vg.civcraft.mc.civmodcore.itemHandling.itemExpression.ItemExpression;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -27,8 +27,6 @@ public class SpellConfig {
 
     public void reloadConfig(Configuration config) {
         spells = new HashMap<>();
-        itemsToSpells = new HashMap<>();
-        itemsToDefinitions = new HashMap<ItemStack, List<Effect>>();
 
         doGlobals(config);
 
@@ -37,8 +35,6 @@ public class SpellConfig {
                 .getConfigurationSection("spells");
         parseSpells(defaultSpellsConfig);
         parseSpells(config.getConfigurationSection("spells"));
-
-        syncSpells();
     }
 
     public int coolDownTicks;
@@ -61,13 +57,12 @@ public class SpellConfig {
     }
 
     public HashMap<String, SpellData> spells;
-    public HashMap<ItemStack, SpellData> itemsToSpells;
-    public HashMap<ItemStack, List<Effect>> itemsToDefinitions;
 
     public static class SpellData {
         public String name;
         public List<Effect> spellDefinition;
         public ItemStack triggerItem;
+        public ItemExpression itemExpression;
 
         /**
          * If you can cast this spell by right clicking with the trigger item.
@@ -88,18 +83,17 @@ public class SpellConfig {
             SpellData spellData = new SpellData();
             spellData.name = spellKey;
             spellData.triggerItem = spellConfig.getItemStack("triggerItem");
+            spellData.itemExpression = spellConfig.contains("triggerItemExpression") ?
+                    ItemExpression.getItemExpression(spellConfig, "triggerItemExpression") :
+                    new ItemExpression(spellData.triggerItem);
             spellData.leftClickCast = spellConfig.getBoolean("leftClickCast", true);
             spellData.rightClickCast = spellConfig.getBoolean("rightClickCast", true);
             spellData.spellDefinition = CastHelper.parseSpellDefinition(spellDefinitionConfig);
 
-            this.spells.put(spellKey, spellData);
-        }
-    }
+            if (spellData.triggerItem != null && !spellData.itemExpression.matches(spellData.triggerItem))
+                main.warning("Spell \"" + spellKey + "\"'s triggerItemExpression does not match its triggerItem.");
 
-    private void syncSpells() {
-        for (Map.Entry<String, SpellData> spell : spells.entrySet()) {
-            itemsToSpells.put(spell.getValue().triggerItem, spell.getValue());
-            itemsToDefinitions.put(spell.getValue().triggerItem, spell.getValue().spellDefinition);
+            this.spells.put(spellKey, spellData);
         }
     }
 }
