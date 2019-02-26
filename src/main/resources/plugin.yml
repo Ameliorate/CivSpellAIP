@@ -3,6 +3,7 @@ version: @version@-@apitype@-@apiversion@
 description: Adds an api to add spells to civcraft-type servers
 authors: [Amelorate]
 website: https://github.com/Ameliorate/CivSpellAPI
+api-version: 1.13
 
 depend: [CivModCore]
 

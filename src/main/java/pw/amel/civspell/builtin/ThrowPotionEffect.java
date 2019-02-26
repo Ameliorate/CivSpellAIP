@@ -44,7 +44,6 @@ public class ThrowPotionEffect implements Effect {
     private ArrayList<PotionEffect> effects;
 
     @Override
-    @SuppressWarnings("unchecked") // fix your warnings, java
     public void cast(CastData castData) {
         // Construct the potion with the effects to be thrown
         ItemStack potionItem = new ItemStack(isLingering ? Material.LINGERING_POTION : Material.SPLASH_POTION);

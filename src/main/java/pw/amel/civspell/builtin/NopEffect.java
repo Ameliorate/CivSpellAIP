@@ -1,5 +1,6 @@
 package pw.amel.civspell.builtin;
 
+import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import pw.amel.civspell.spell.CastData;
 import pw.amel.civspell.spell.Effect;
@@ -19,7 +20,7 @@ public class NopEffect implements Effect {
         if (isFancy) {
             d.doLaterIfNotReturned(() -> {
                 d.player.sendMessage("§3The spell wooshes away, doing nothing.");
-                d.player.getEyeLocation().getWorld().playEffect(d.player.getLocation(), org.bukkit.Effect.EXPLOSION_HUGE, null, 10);
+                d.player.getEyeLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE, d.player.getLocation(), 1);
                 d.player.getEyeLocation().getWorld().playEffect(d.player.getLocation(), org.bukkit.Effect.GHAST_SHOOT, null, 10);
             });
         }
