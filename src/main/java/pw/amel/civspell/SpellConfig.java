@@ -85,7 +85,7 @@ public class SpellConfig {
             spellData.triggerItem = spellConfig.getItemStack("triggerItem");
             spellData.itemExpression = spellConfig.contains("triggerItemExpression") ?
                     ItemExpression.getItemExpression(spellConfig, "triggerItemExpression") :
-                    new ItemExpression(spellData.triggerItem);
+                    new ItemExpression(spellData.triggerItem, true);
             spellData.leftClickCast = spellConfig.getBoolean("leftClickCast", true);
             spellData.rightClickCast = spellConfig.getBoolean("rightClickCast", true);
             spellData.spellDefinition = CastHelper.parseSpellDefinition(spellDefinitionConfig);
