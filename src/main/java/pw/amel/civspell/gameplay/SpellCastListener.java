@@ -8,6 +8,7 @@ import pw.amel.civspell.CivSpells;
 import pw.amel.civspell.SpellConfig;
 import pw.amel.civspell.spell.CastHelper;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpellCastListener implements Listener {
@@ -25,14 +26,19 @@ public class SpellCastListener implements Listener {
         // Stepping on redstone
         if (event.getAction() == Action.PHYSICAL)
             return;
-        if (mainPlugin.config.spells.values().stream()
-                .noneMatch(template -> template.itemExpression.matches(event.getItem())))
+
+        List<SpellConfig.SpellData> spellDatas = mainPlugin.config.spells.values().stream()
+                .filter(template -> template.itemExpression.matches(event.getItem()))
+                .collect(Collectors.toList());
+
+        if (spellDatas.size() == 0)
             return;
 
-        SpellConfig.SpellData spellData = mainPlugin.config.spells.values().stream()
-                .filter(template -> template.itemExpression.matches(event.getItem()))
-                .collect(Collectors.toList())
-                .get(0);
+        SpellConfig.SpellData spellData = spellDatas.get(0);
+        if (spellDatas.size() > 1) {
+            mainPlugin.warning("Spell cast with " + event.getItem() + " matched multiple spells. Defaulting to " + spellData.name) ;
+        }
+
 
         if (!spellData.rightClickCast && (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
             return;
