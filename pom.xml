@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>pw.amel</groupId>
-  <artifactId>CivSpellAPI</artifactId>
+  <artifactId>CivSpells</artifactId>
   <version>3.0.0</version>
   <packaging>jar</packaging>
 

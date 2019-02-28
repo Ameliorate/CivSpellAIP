@@ -17,5 +17,5 @@ cd "$gitroot/testserver" # cd into testserver to work around buildtools placing 
 java -jar "$gitroot/testserver/BuildTools.jar" -rev 1.13.2
 cd "$currentdir"
 mkdir "$gitroot/testserver/plugins"
-ln -sv "$gitroot/target/CivSpellAPI.jar" "$gitroot/testserver/plugins/CivSpellAPI.jar"
+ln -sv "$gitroot/target/CivSpells.jar" "$gitroot/testserver/plugins/CivSpells.jar"
 # TODO: Download civmodcore into plugins folder when it's in the devoted buildserver.
