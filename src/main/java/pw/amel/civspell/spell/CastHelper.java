@@ -23,8 +23,8 @@ public class CastHelper {
      * Casts a spell, properly handling cooldowns and the like.
      * @return Weather or not the spell is on cooldown.
      */
-    public static boolean castSpell(List<Effect> spellDefinition, Player caster,
-                                    Block blockClicked, Action castAction, BlockFace castBlockFace, String spellName,
+    public static boolean castSpell(SpellConfig.SpellData spell, Player caster,
+                                    Block blockClicked, Action castAction, BlockFace castBlockFace,
                                     ItemStack triggerItem, CivSpells mainPlugin) {
         CastData castData = new CastData();
 
@@ -32,11 +32,13 @@ public class CastHelper {
         castData.blockClicked = blockClicked;
         castData.blockClickedFace = castBlockFace;
         castData.castAction = castAction;
-        castData.spellName = spellName;
+        castData.spellName = spell.name;
         castData.triggerItem = triggerItem;
         castData.main = mainPlugin;
+        castData.exampleItem = spell.triggerItem;
+        castData.itemExpression = spell.itemExpression;
 
-        return castSpell(spellDefinition, castData, false, mainPlugin);
+        return castSpell(spell.spellDefinition, castData, false, mainPlugin);
     }
 
     public static boolean castSpell(List<Effect> spellDefinition, CastData castData, boolean ignoreCooldown, CivSpells mainPlugin) {

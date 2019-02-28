@@ -39,8 +39,8 @@ public class SpellCastListener implements Listener {
         if (!spellData.leftClickCast && (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR))
             return;
 
-        CastHelper.castSpell(spellData.spellDefinition, event.getPlayer(), event.getClickedBlock(),
-                event.getAction(), event.getBlockFace(), spellData.name, event.getItem(), mainPlugin);
+        CastHelper.castSpell(spellData, event.getPlayer(), event.getClickedBlock(),
+                event.getAction(), event.getBlockFace(), event.getItem(), mainPlugin);
 
         event.setCancelled(true);
     }

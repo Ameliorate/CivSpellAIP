@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import pw.amel.civspell.CivSpells;
+import vg.civcraft.mc.civmodcore.itemHandling.itemExpression.ItemExpression;
 
 import java.util.HashSet;
 
@@ -45,6 +46,20 @@ public class CastData {
      * The item that was in the hand of the caster player when this spell was casted.
      */
     public ItemStack triggerItem;
+
+    /**
+     * An item defined in the config for this spell that serves as an example for this spell.
+     *
+     * It is consitered invalid for the ItemExpression to not match this.
+     *
+     * This value may be null if it was not defined in the config.
+     */
+    public ItemStack exampleItem;
+
+    /**
+     * The actual definition for the item that is used to trigger the spell.
+     */
+    public ItemExpression itemExpression;
 
     public boolean isRightClick() {
         return castAction == Action.RIGHT_CLICK_AIR || castAction == Action.RIGHT_CLICK_BLOCK;

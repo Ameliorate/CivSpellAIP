@@ -50,6 +50,11 @@ public class GiveSpellItem implements CommandExecutor {
         }
 
         ItemStack item = spellData.triggerItem.clone();
+        if (item == null) {
+            sender.sendMessage(ChatColor.RED + "That spell does not define an item.");
+            return true;
+        }
+
         item.setAmount(number);
         Player player = main.getServer().getPlayer(playerName);
         player.getInventory().addItem(item);
